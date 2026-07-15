@@ -36,7 +36,7 @@ flowchart LR
 - [Template Reference](#template-reference)
 - [Examples](#examples)
 - [Notes](#notes)
-- [Related Projects](#related-projects)
+- [Related Projects | 相关项目](#related-projects--相关项目)
 - [Project Structure](#project-structure)
 
 ## Overview
@@ -495,7 +495,7 @@ If you need finer-grained style control than the YAML configuration provides—f
 3. Save the adjusted DOCX as the `reference_docx`
 4. Set `pandoc.reference_docx` in the configuration to point to that file
 
-## Related Projects
+## Related Projects | 相关项目
 
 <details>
 <summary>My other open-source repositories</summary>
