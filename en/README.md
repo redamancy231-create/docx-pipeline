@@ -1,10 +1,11 @@
 # DOCX Pipeline
 
-[![中文](https://img.shields.io/badge/lang-中文-red)](../README.md)
-[![正體中文](https://img.shields.io/badge/lang-正體中文-green)](../zh-Hant/README.md)
+[![CI](https://github.com/redamancy231-create/docx-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/redamancy231-create/docx-pipeline/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/docx-pipeline)](https://pypi.org/project/docx-pipeline/)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)]()
 [![License](https://img.shields.io/badge/license-MIT-green)]()
-[![Tests](https://img.shields.io/badge/tests-17%2F17-brightgreen)]()
+
+[中文](../README.md) · [正體中文](../zh-Hant/README.md)
 
 A command-line tool that converts Markdown documents into high-quality DOCX files. It supports dual backends—native generation with python-docx and conversion with pandoc—includes built-in Mermaid diagram rendering, and provides four preset templates for Chinese-language documents.
 
