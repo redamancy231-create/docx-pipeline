@@ -514,7 +514,9 @@ pandoc 并非必需的默认后端——仅 `report` 模板默认启用。如果
 ```
 docx-pipeline/
 ├── LICENSE                                     # MIT 许可证
-├── README.md                                   # 本文档
+├── README.md                                   # 中文 README
+├── en/
+│   └── README.md                               # English README
 ├── pyproject.toml                              # 打包配置
 ├── project_status.md                           # 项目状态
 ├── reference_files.md                          # 文件索引
