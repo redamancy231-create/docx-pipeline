@@ -1,5 +1,10 @@
 # DOCX Pipeline
 
+[![English](https://img.shields.io/badge/lang-English-blue)](./en/README.md)
+[![正體中文](https://img.shields.io/badge/lang-正體中文-green)](./zh-Hant/README.md)
+
+> **English Abstract**: DOCX Pipeline converts Markdown to production-quality Chinese DOCX files. It offers a dual backend (Pure Python via python-docx + Pandoc subprocess), automatic Mermaid diagram rendering, and 4 preset templates covering general documents, academic papers, technical reports, and quantitative strategy documents. Fonts, sizes, margins, line spacing, and table styles are fully configurable via YAML. Tested across 3 rounds of independent LLM review with 17 automated tests passing.
+
 将 Markdown 文档转换为高质量 DOCX 文件的命令行工具。支持 python-docx 原生生成和 pandoc 双后端，内置 Mermaid 图表渲染，提供 4 套预设中文模板。
 
 ## 目录
@@ -470,6 +475,22 @@ pandoc 并非必需的默认后端——仅 `report` 模板默认启用。如果
 2. 在 Word 中手动调整样式
 3. 保存调整后的 DOCX 作为 `reference_docx`
 4. 在配置中设置 `pandoc.reference_docx` 指向该文件
+
+## 相关项目 | Related Projects
+
+<details>
+<summary>我的其他开源仓库 | My other open-source repos</summary>
+
+| 仓库 | 说明 |
+|------|------|
+| [ai-collaboration-framework](https://github.com/redamancy231-create/ai-collaboration-framework) | 人类-AI协作全生命周期方法论框架 |
+| [independent-review-toolkit](https://github.com/redamancy231-create/independent-review-toolkit) | 独立审查SOP与多模型交叉验证工具 |
+| [prompt-tdd-methodology](https://github.com/redamancy231-create/prompt-tdd-methodology) | Prompt对照实验方法论案例手册 |
+| [etf-pattern-match-pybind11](https://github.com/redamancy231-create/etf-pattern-match-pybind11) | C++20/pybind11加速形态匹配ETF策略（DTW 37×） |
+| [claude-skills](https://github.com/redamancy231-create/claude-skills) | Claude Code Skills：会话交接、CLAUDE.md生成、预注册审计 |
+| [ma-case-study-pipeline](https://github.com/redamancy231-create/ma-case-study-pipeline) | 多模型协同学术流水线——8阶段+开卷/盲答对照 |
+
+</details>
 
 ## 项目结构
 
