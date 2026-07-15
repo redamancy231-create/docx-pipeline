@@ -1,0 +1,63 @@
+project:
+  name: test_sample
+  root: tests/fixtures
+paths:
+  md_source: test_sample.md
+  docx_output: test_sample.docx
+  work_dir: _work
+fonts:
+  east_asian: 微软雅黑
+  latin: 微软雅黑
+  symbol: ''
+font_sizes:
+  body: 10.5
+  table: 9.0
+  code: 8.5
+  headings:
+    h1: 22.0
+    h2: 16.0
+    h3: 14.0
+    h4: 12.0
+    h5: 10.5
+    h6: 9.0
+font_colors:
+  body: auto
+  heading: auto
+  link: '#0563C1'
+  code: auto
+page:
+  size: A4
+  orientation: portrait
+  margins:
+    top: 2.54
+    bottom: 2.54
+    left: 3.18
+    right: 3.18
+pandoc:
+  enabled: false
+mermaid:
+  enabled: false
+version:
+  number: 0.1.0
+  date: '2026-06-20'
+  label: test
+styles:
+  toc:
+    enabled: true
+    depth: 3
+    title: 目录
+  table:
+    style: Table Grid
+    autofit: true
+    header_bold: true
+    header_shading: '#D9E2F3'
+  paragraph:
+    line_spacing: 1.15
+    space_after: 6.0
+    first_line_indent: 0.0
+  heading:
+    levels: {}
+backup:
+  enabled: true
+  max_backups: 5
+  suffix: .bak

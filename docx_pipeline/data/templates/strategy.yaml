@@ -1,0 +1,97 @@
+# =============================================================================
+# DOCX Pipeline 量化策略配置模板
+# =============================================================================
+# 适用场景：量化策略文档、因子研究报告、回测分析报告
+# 字体方案：等线/DengXian（无衬线，西文+东亚统一），10.5pt 正文
+# 页面：A4 纵向，标准页边距
+# 转换策略：默认 python-docx（量化文档以表格为主，python-docx 控制力更强）
+# =============================================================================
+
+project:
+  name: "量化策略文档"
+  root: "."
+
+paths:
+  md_source: "./md/main.md"
+  docx_output: "./output/document.docx"
+  json_source: "./output"
+  work_dir: "./work"
+  reference_docx: ""
+
+fonts:
+  east_asian: "等线"
+  latin: "等线"
+  symbol: ""
+
+font_sizes:
+  body: 10.5
+  table: 9.0
+  code: 8.5
+  headings:
+    h1: 22.0
+    h2: 16.0
+    h3: 14.0
+    h4: 12.0
+    h5: 10.5
+    h6: 9.0
+
+font_colors:
+  body: "auto"
+  heading: "auto"
+  link: "#0563C1"
+  code: "auto"
+  code_block_bg: "#F5F5F5"
+  blockquote: "#555555"
+  horizontal_rule: "#CCCCCC"
+
+page:
+  size: "A4"
+  orientation: "portrait"
+  margins:
+    top: 2.54
+    bottom: 2.54
+    left: 3.18
+    right: 3.18
+
+pandoc:
+  enabled: false
+  extra_args: []
+  reference_docx: ""
+
+mermaid:
+  enabled: false
+  image:
+    format: "png"
+    dpi: 300
+    scale: 1.0
+  render:
+    mmdc_path: "mmdc"
+    puppeteer_config: ""
+    timeout: 60
+
+version:
+  number: "1.0.0"
+  label: ""
+  date: ""
+
+styles:
+  toc:
+    enabled: true
+    depth: 3
+    title: "目录"
+  table:
+    style: "Table Grid"
+    autofit: true
+    header_bold: true
+    header_shading: "#D9E2F3"
+  paragraph:
+    line_spacing: 1.15
+    space_after: 6.0
+    first_line_indent: 0.0
+  heading:
+    levels: {}
+
+backup:
+  enabled: true
+  max_backups: 5
+  suffix: ".bak"

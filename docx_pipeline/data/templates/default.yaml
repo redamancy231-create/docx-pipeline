@@ -1,0 +1,108 @@
+# =============================================================================
+# DOCX Pipeline 默认配置模板 —— 通用中文文档
+# =============================================================================
+# 适用场景：通用中文文档、备忘录、内部文档
+# 字体方案：微软雅黑（西文+东亚统一），10.5pt 正文字号
+# 页面：A4 纵向，标准页边距
+# 转换策略：默认使用 python-docx 原生生成（pandoc 需手动启用）
+# =============================================================================
+
+# ---- 项目元信息 -------------------------------------------------------------
+project:
+  name: "未命名项目"
+  root: "."
+
+# ---- 路径配置 ---------------------------------------------------------------
+paths:
+  md_source: "./md/main.md"
+  docx_output: "./output/document.docx"
+  json_source: "./output"
+  work_dir: "./work"
+  reference_docx: ""
+
+# ---- 字体配置 ---------------------------------------------------------------
+fonts:
+  east_asian: "微软雅黑"
+  latin: "微软雅黑"
+  symbol: ""
+
+# ---- 字号配置 (pt) ----------------------------------------------------------
+font_sizes:
+  body: 10.5
+  table: 9.0
+  code: 8.5
+  headings:
+    h1: 22.0
+    h2: 16.0
+    h3: 14.0
+    h4: 12.0
+    h5: 10.5
+    h6: 9.0
+
+# ---- 字体颜色 (hex 或 "auto") -----------------------------------------------
+font_colors:
+  body: "auto"
+  heading: "auto"
+  link: "#0563C1"
+  code: "auto"
+  code_block_bg: "#F5F5F5"
+  blockquote: "#555555"
+  horizontal_rule: "#CCCCCC"
+
+# ---- 页面设置 ---------------------------------------------------------------
+page:
+  size: "A4"
+  orientation: "portrait"
+  margins:
+    top: 2.54
+    bottom: 2.54
+    left: 3.18
+    right: 3.18
+
+# ---- Pandoc 转换 ------------------------------------------------------------
+pandoc:
+  enabled: false
+  extra_args: []
+  reference_docx: ""
+
+# ---- Mermaid 图表渲染 -------------------------------------------------------
+mermaid:
+  enabled: false
+  image:
+    format: "png"
+    dpi: 300
+    scale: 1.0
+  render:
+    mmdc_path: "mmdc"
+    puppeteer_config: ""
+    timeout: 60
+
+# ---- 文档版本元数据 ---------------------------------------------------------
+version:
+  number: "1.0.0"
+  label: ""
+  date: ""
+
+# ---- 样式配置 ---------------------------------------------------------------
+styles:
+  toc:
+    enabled: true
+    depth: 3
+    title: "目录"
+  table:
+    style: "Table Grid"
+    autofit: true
+    header_bold: true
+    header_shading: "#D9E2F3"
+  paragraph:
+    line_spacing: 1.15
+    space_after: 6.0
+    first_line_indent: 0.0
+  heading:
+    levels: {}
+
+# ---- 备份设置 ---------------------------------------------------------------
+backup:
+  enabled: true
+  max_backups: 5
+  suffix: ".bak"

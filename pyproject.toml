@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docx-pipeline"
+version = "1.0.0"
+description = "Markdown to pretty Chinese DOCX with dual backend (Pure Python + Pandoc) and Mermaid diagram support"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "acerolaorion"},
+]
+keywords = ["docx", "markdown", "pandoc", "mermaid", "chinese", "document-generation"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing",
+    "Topic :: Text Processing :: Markup",
+    "Topic :: Software Development :: Documentation",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "python-docx>=0.8.11",
+    "PyYAML>=6.0",
+    "click>=8.0",
+    "Pillow>=9.0",
+]
+
+[project.optional-dependencies]
+pandoc = []
+mermaid = []
+dev = [
+    "pytest>=7.0",
+]
+
+[project.scripts]
+docx-pipeline = "docx_pipeline.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["docx_pipeline*"]
+
+[tool.setuptools.package-data]
+docx_pipeline = ["data/schemas/*.json", "data/templates/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

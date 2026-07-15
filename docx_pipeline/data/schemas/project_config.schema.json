@@ -1,0 +1,166 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/acerolaorion/docx-pipeline/project_config.schema.json",
+  "title": "DOCX Pipeline Project Configuration",
+  "description": "Schema for docx_pipeline project YAML configuration files. Matches the runtime dataclass structure (DocxPipelineConfig).",
+  "type": "object",
+  "required": ["project", "paths"],
+  "additionalProperties": true,
+  "properties": {
+    "project": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string", "minLength": 1, "maxLength": 128},
+        "root": {"type": "string", "default": "."}
+      }
+    },
+    "paths": {
+      "type": "object",
+      "required": ["md_source", "docx_output"],
+      "additionalProperties": false,
+      "properties": {
+        "md_source": {"type": "string", "minLength": 1, "description": "Markdown source file path"},
+        "docx_output": {"type": "string", "minLength": 1, "description": "Output DOCX file path"},
+        "json_source": {"type": "string", "description": "JSON metadata directory"},
+        "work_dir": {"type": "string", "description": "Intermediate work directory"},
+        "reference_docx": {"type": "string", "description": "Pandoc reference document path"}
+      }
+    },
+    "fonts": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "east_asian": {"type": "string", "default": "微软雅黑"},
+        "latin": {"type": "string", "default": "微软雅黑"},
+        "symbol": {"type": "string", "default": ""}
+      }
+    },
+    "font_sizes": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "body": {"type": "number", "minimum": 4, "maximum": 72, "default": 10.5},
+        "table": {"type": "number", "minimum": 4, "maximum": 72, "default": 9.0},
+        "code": {"type": "number", "minimum": 4, "maximum": 72, "default": 8.5},
+        "headings": {"type": "object", "additionalProperties": {"type": "number", "minimum": 4, "maximum": 72}}
+      }
+    },
+    "font_colors": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "body": {"type": "string", "default": "auto"},
+        "heading": {"type": "string", "default": "auto"},
+        "link": {"type": "string", "default": "#0563C1"},
+        "code": {"type": "string", "default": "auto"},
+        "code_block_bg": {"type": "string", "default": "#F5F5F5"},
+        "blockquote": {"type": "string", "default": "#555555"},
+        "horizontal_rule": {"type": "string", "default": "#CCCCCC"}
+      }
+    },
+    "page": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "size": {"type": "string", "enum": ["A4", "Letter", "A3", "B5"], "default": "A4"},
+        "orientation": {"type": "string", "enum": ["portrait", "landscape"], "default": "portrait"},
+        "margins": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "top": {"type": "number", "default": 2.54},
+            "bottom": {"type": "number", "default": 2.54},
+            "left": {"type": "number", "default": 3.18},
+            "right": {"type": "number", "default": 3.18}
+          }
+        }
+      }
+    },
+    "pandoc": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "enabled": {"type": "boolean", "default": false},
+        "extra_args": {"type": "array", "items": {"type": "string"}, "default": []},
+        "reference_docx": {"type": "string", "default": ""}
+      }
+    },
+    "mermaid": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "enabled": {"type": "boolean", "default": false},
+        "image": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "format": {"type": "string", "enum": ["png", "svg"], "default": "png"},
+            "dpi": {"type": "integer", "minimum": 72, "maximum": 1200, "default": 300},
+            "scale": {"type": "number", "minimum": 0.5, "maximum": 8.0, "default": 1.0}
+          }
+        },
+        "render": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "mmdc_path": {"type": "string", "default": "mmdc"},
+            "puppeteer_config": {"type": "string", "default": ""},
+            "timeout": {"type": "integer", "minimum": 10, "maximum": 600, "default": 60}
+          }
+        }
+      }
+    },
+    "version": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "number": {"type": "string", "default": "1.0.0"},
+        "label": {"type": "string", "default": ""},
+        "date": {"type": "string", "default": ""}
+      }
+    },
+    "styles": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "toc": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "enabled": {"type": "boolean", "default": true},
+            "depth": {"type": "integer", "minimum": 1, "maximum": 6, "default": 3},
+            "title": {"type": "string", "default": "目录"}
+          }
+        },
+        "table": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "style": {"type": "string", "default": "Table Grid"},
+            "autofit": {"type": "boolean", "default": true},
+            "header_bold": {"type": "boolean", "default": true},
+            "header_shading": {"type": "string", "default": "#D9E2F3"}
+          }
+        },
+        "paragraph": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "line_spacing": {"type": "number", "minimum": 0.5, "maximum": 3.0, "default": 1.15},
+            "space_after": {"type": "number", "minimum": 0, "maximum": 72, "default": 6.0},
+            "first_line_indent": {"type": "number", "minimum": 0, "maximum": 5.0, "default": 0.0}
+          }
+        },
+        "heading": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "levels": {"type": "object", "additionalProperties": true},
+            "space_before": {"type": "object", "additionalProperties": {"type": "number"}},
+            "space_after": {"type": "number", "default": 6.0}
+          }
+        }
+      }
+    },
+    "backup": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "enabled": {"type": "boolean", "default": true},
+        "max_backups": {"type": "integer", "minimum": 0, "maximum": 100, "default": 5},
+        "suffix": {"type": "string", "default": ".bak"}
+      }
+    },
+    "_pipeline": {
+      "type": "object",
+      "description": "Pipeline provenance metadata (set by init command)",
+      "additionalProperties": true
+    }
+  }
+}
