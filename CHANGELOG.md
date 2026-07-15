@@ -15,5 +15,5 @@
 - Post-processing: font application, table borders, TOC field, code block shading, footer
 - Chinese, English, and Traditional Chinese (正體中文) README
 - 17 automated tests (config, parser, CLI, backup)
-- 3-round GPT-5.6-Sol independent review closure (29 issues fixed)
+- 3-round GPT-5.6-Sol independent review closure (28 issues fixed)
 - CI: GitHub Actions (Python 3.10–3.12, Ubuntu/Windows/macOS)
