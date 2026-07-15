@@ -62,7 +62,7 @@ DOCX Pipeline solves the common problem of unpredictable Chinese typography when
 
 ```bash
 # 1. Install docx-pipeline (auto-installs python-docx, PyYAML, click, Pillow)
-pip install docx-pipeline
+pip install git+https://github.com/redamancy231-create/docx-pipeline.git
 
 # 2. (Optional) Install pandoc
 # Windows: choco install pandoc  or download from https://pandoc.org
