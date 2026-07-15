@@ -518,6 +518,8 @@ docx-pipeline/
 ├── README.md                                   # This document (Chinese)
 ├── en/
 │   └── README.md                               # English README
+├── zh-Hant/
+│   └── README.md                               # Traditional Chinese README
 ├── pyproject.toml                              # Packaging configuration
 ├── project_status.md                           # Project status
 ├── reference_files.md                          # File index

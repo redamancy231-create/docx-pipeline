@@ -520,6 +520,8 @@ docx-pipeline/
 ├── README.md                                   # 中文 README
 ├── en/
 │   └── README.md                               # English README
+├── zh-Hant/
+│   └── README.md                               # 正體中文 README
 ├── pyproject.toml                              # 打包配置
 ├── project_status.md                           # 项目状态
 ├── reference_files.md                          # 文件索引
