@@ -2,6 +2,9 @@
 
 [![中文](https://img.shields.io/badge/lang-中文-red)](../README.md)
 [![正體中文](https://img.shields.io/badge/lang-正體中文-green)](../zh-Hant/README.md)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue)]()
+[![License](https://img.shields.io/badge/license-MIT-green)]()
+[![Tests](https://img.shields.io/badge/tests-17%2F17-brightgreen)]()
 
 A command-line tool that converts Markdown documents into high-quality DOCX files. It supports dual backends—native generation with python-docx and conversion with pandoc—includes built-in Mermaid diagram rendering, and provides four preset templates for Chinese-language documents.
 

@@ -2,6 +2,9 @@
 
 [![English](https://img.shields.io/badge/lang-English-blue)](./en/README.md)
 [![正體中文](https://img.shields.io/badge/lang-正體中文-green)](./zh-Hant/README.md)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue)]()
+[![License](https://img.shields.io/badge/license-MIT-green)]()
+[![Tests](https://img.shields.io/badge/tests-17%2F17-brightgreen)]()
 
 > **English Abstract**: DOCX Pipeline converts Markdown to production-quality Chinese DOCX files. It offers a dual backend (Pure Python via python-docx + Pandoc subprocess), automatic Mermaid diagram rendering, and 4 preset templates covering general documents, academic papers, technical reports, and quantitative strategy documents. Fonts, sizes, margins, line spacing, and table styles are fully configurable via YAML. Tested across 3 rounds of independent LLM review with 17 automated tests passing.
 
