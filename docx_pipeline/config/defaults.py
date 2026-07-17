@@ -245,10 +245,10 @@ REPORT: Dict[str, Any] = {
         "size": "A4",
         "orientation": "portrait",
         "margins": {
-            "top": 2.0,
-            "bottom": 2.0,
-            "left": 2.5,
-            "right": 2.5,
+            "top": 1.8,
+            "bottom": 1.8,
+            "left": 1.8,
+            "right": 1.8,
         },
     },
     "pandoc": {
