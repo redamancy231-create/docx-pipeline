@@ -119,25 +119,35 @@ def _coerce_str(value: str) -> Any:
     return value
 
 
-def _resolve_relative_paths(config: DocxPipelineConfig) -> DocxPipelineConfig:
+def _resolve_relative_paths(
+    config: DocxPipelineConfig,
+    base_dir: Optional[Path] = None,
+) -> DocxPipelineConfig:
     """Resolve relative paths under ``config.paths`` against ``config.project.root``.
+
+    When ``base_dir`` is given (the YAML file's parent directory), a relative
+    ``project.root`` is resolved against it first.  Otherwise CWD is used.
 
     Only paths that are non-empty and not already absolute are resolved.
     """
-    root = Path(config.project.root).resolve()
+    project_root = Path(config.project.root)
+    if not project_root.is_absolute() and base_dir is not None:
+        project_root = (base_dir / project_root).resolve()
+    else:
+        project_root = project_root.resolve()
 
     for attr in ("md_source", "docx_output", "json_source", "work_dir", "reference_docx"):
         raw = getattr(config.paths, attr, None)
         if raw and isinstance(raw, str):
             p = Path(raw)
             if not p.is_absolute():
-                setattr(config.paths, attr, str((root / p).resolve()))
+                setattr(config.paths, attr, str((project_root / p).resolve()))
 
     # Also resolve pandoc.reference_docx if set
     if config.pandoc.reference_docx:
         p = Path(config.pandoc.reference_docx)
         if not p.is_absolute():
-            config.pandoc.reference_docx = str((root / p).resolve())
+            config.pandoc.reference_docx = str((project_root / p).resolve())
 
     return config
 
@@ -177,8 +187,10 @@ def load_config(
         data: Dict[str, Any] = {}
 
     # --- 2. Layer YAML on top ---
+    config_dir: Optional[Path] = None
     if path:
         yaml_path = Path(path)
+        config_dir = yaml_path.parent.resolve()
         if not yaml_path.exists():
             raise FileNotFoundError(f"Configuration file not found: {path}")
         with open(yaml_path, "r", encoding="utf-8") as fh:
@@ -198,7 +210,7 @@ def load_config(
     config = DocxPipelineConfig.from_dict(data)
 
     # --- 5. Resolve relative paths ---
-    config = _resolve_relative_paths(config)
+    config = _resolve_relative_paths(config, base_dir=config_dir)
 
     return config
 

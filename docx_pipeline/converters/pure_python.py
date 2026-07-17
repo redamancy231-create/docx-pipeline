@@ -388,7 +388,7 @@ class PurePythonConverter(AbstractConverter):
         p.paragraph_format.space_after = Pt(
             self.config.styles.paragraph.space_after
         )
-        if indent:
+        if indent or self.config.styles.paragraph.first_line_indent:
             p.paragraph_format.first_line_indent = Cm(
                 self.config.styles.paragraph.first_line_indent or 0.74
             )

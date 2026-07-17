@@ -36,7 +36,7 @@ page:
     left: 2.5
     right: 2.5
 pandoc:
-  enabled: false
+  enabled: true
   extra_args: []
   reference_docx: ''
 mermaid:

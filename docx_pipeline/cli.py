@@ -145,10 +145,14 @@ def init_cmd(
         paths["md_source"] = normalize_path(md_file)
         docx_name = os.path.splitext(os.path.basename(md_file))[0] + ".docx"
     else:
+        # Create stub markdown so the project is valid out of the box
+        md_path = os.path.join(project_dir, "output", f"{name}.md").replace("\\", "/")
+        os.makedirs(os.path.dirname(md_path), exist_ok=True)
+        with open(md_path, "w", encoding="utf-8") as fh:
+            fh.write(f"# {name}\n\n")
+        paths["md_source"] = md_path
         docx_name = f"{name}.docx"
     paths["docx_output"] = os.path.join(project_dir, "output", docx_name).replace("\\", "/")
-
-    # Record provenance
     data.setdefault("version", {})["number"] = __version__
     data["_pipeline"] = {
         "template": template_name,

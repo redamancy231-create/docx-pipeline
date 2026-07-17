@@ -34,7 +34,7 @@ class PathsConfig:
     """
 
     md_source: str = field(default="output/markdown")
-    docx_output: str = field(default="output/docx")
+    docx_output: str = field(default="output/document.docx")
     json_source: str = field(default="output/json")
     work_dir: str = field(default="work")
     reference_docx: str = field(default="")
@@ -109,7 +109,7 @@ class PageConfig:
 class PandocConfig:
     """Pandoc invocation settings."""
 
-    enabled: bool = field(default=True)
+    enabled: bool = field(default=False)
     extra_args: List[str] = field(default_factory=list)
     # Path to a reference docx for style import (passed as --reference-doc)
     reference_docx: str = field(default="")

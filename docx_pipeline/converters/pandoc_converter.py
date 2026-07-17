@@ -731,6 +731,11 @@ class PandocConverter(AbstractConverter):
                 borders.append(border)
             tblPr.append(borders)
 
+            # Remove existing width/layout to avoid duplicates
+            for child in list(tblPr):
+                if child.tag in (qn("w:tblW"), qn("w:tblLayout")):
+                    tblPr.remove(child)
+
             # Set table width to 100% and enable autofit
             if table_cfg.autofit:
                 tblW = OxmlElement("w:tblW")
