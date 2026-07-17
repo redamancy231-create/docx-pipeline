@@ -50,7 +50,7 @@ DOCX Pipeline solves the common problem of unpredictable Chinese typography when
 
 ## Preview
 
-> Markdown (top) → DOCX output (bottom) · More screenshots in [_screenshots/](_screenshots/)
+> Markdown (top) → DOCX output (bottom) · More files in [_screenshots/](_screenshots/)
 
 | Academic | Report |
 |:---:|:---:|
