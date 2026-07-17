@@ -136,6 +136,7 @@ docx-pipeline convert --config ./project.yaml --dry-run
 - Pure Python 后端不为代码块提供语法高亮。
 - Mermaid 渲染需要 Node.js 和 mermaid-cli；这两个依赖不随 docx-pipeline 一起提供。
 - 中文排版功能（字体、缩进、标题颜色等）专门针对 CJK 文档设计；英文或其他拉丁字母文档建议直接使用 Pandoc 或其他工具。
+- Pandoc 后端可能在长表格后产生多余空白页——这是 Pandoc 自身的分页行为，非 docx-pipeline 特有。如需精确控制分页，建议使用 Pure Python 后端或在 Word 中手动调整。
 
 ## 计划中的改进 | Planned Improvements
 

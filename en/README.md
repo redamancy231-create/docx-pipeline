@@ -135,6 +135,7 @@ docx-pipeline convert --config ./project.yaml --dry-run
 - The Pure Python backend does not provide syntax highlighting for code blocks.
 - Mermaid rendering requires Node.js and mermaid-cli; these are not bundled with docx-pipeline.
 - Chinese typography features (fonts, indentation, heading colors) are designed for CJK documents; English or other Latin-script documents should use Pandoc directly or other tools.
+- The Pandoc backend may produce an extra blank page after long tables — this is Pandoc's own pagination behavior, not specific to docx-pipeline. For precise page-break control, use the Pure Python backend or adjust manually in Word.
 
 ## Planned Improvements
 
