@@ -148,6 +148,7 @@ docx-pipeline convert --config ./project.yaml --dry-run
 - 中文排版功能（字型、縮排、標題顏色等）專門針對 CJK 文件設計；英文或其他拉丁字母文件建議直接使用 Pandoc 或其他工具。
 - Pandoc 後端可能在長表格後產生多餘空白頁——這是 Pandoc 自身的分頁行為，非 docx-pipeline 特有。如需精確控制分頁，建議使用 Pure Python 後端或在 Word 中手動調整。
 - Mermaid 圖表轉為 DOCX 內嵌圖片時，向量格式可能出現文字顯示不全，PNG 格式的尺寸/比例/寬高可能因圖表複雜度差異而不夠理想。Mermaid 圖表的多樣性使得難以找到通用參數適配所有場景——如對效果有更高要求，建議在 Word 中手動替換調整後的圖片。
+- 預設頁邊距無法適配所有人的偏好——不同文件類型、閱讀場景對留白的要求差異很大。如有需要，請在 `project.yaml` 的 `page.margins` 中自行調整。
 
 ## 計劃中的改進 | Planned Improvements
 

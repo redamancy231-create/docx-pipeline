@@ -146,6 +146,7 @@ docx-pipeline convert --config ./project.yaml --dry-run
 - Chinese typography features (fonts, indentation, heading colors) are designed for CJK documents; English or other Latin-script documents should use Pandoc directly or other tools.
 - The Pandoc backend may produce an extra blank page after long tables — this is Pandoc's own pagination behavior, not specific to docx-pipeline. For precise page-break control, use the Pure Python backend or adjust manually in Word.
 - When converting Mermaid diagrams to embedded DOCX images, vector formats may have text clipping issues, and PNG format dimensions/ratios may vary with diagram complexity. The diversity of Mermaid diagrams makes it difficult to find universal parameters — if you need higher quality, consider replacing images manually in Word.
+- Default page margins will not suit everyone — different document types and reading scenarios call for different spacing. Adjust `page.margins` in `project.yaml` to fit your needs.
 
 ## Planned Improvements
 
