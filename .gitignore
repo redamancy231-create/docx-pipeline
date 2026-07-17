@@ -21,6 +21,9 @@ env/
 # Internal review artifacts (not for release)
 _review/
 
+# Screenshot config files (generated locally, may contain absolute paths)
+_screenshots/*/project.yaml
+
 # Pipeline output (user-generated, not tracked)
 _pipeline_output/
 
