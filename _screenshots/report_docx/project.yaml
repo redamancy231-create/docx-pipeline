@@ -1,0 +1,78 @@
+project:
+  name: 技术报告示例
+  root: E:/workspace/projects/docx_pipeline/_screenshots/report_docx
+paths:
+  md_source: E:/workspace/projects/docx_pipeline/_screenshots/report_demo.md
+  docx_output: output/docx
+  json_source: output/json
+  work_dir: work
+  reference_docx: ''
+fonts:
+  east_asian: 微软雅黑
+  latin: 微软雅黑
+  symbol: ''
+font_sizes:
+  body: 10.5
+  table: 9.0
+  code: 8.5
+  headings:
+    h1: 22.0
+    h2: 16.0
+    h3: 14.0
+    h4: 12.0
+    h5: 10.5
+    h6: 9.0
+font_colors:
+  body: auto
+  heading: auto
+  link: '#0563C1'
+  code: auto
+page:
+  size: A4
+  orientation: portrait
+  margins:
+    top: 2.0
+    bottom: 2.0
+    left: 2.5
+    right: 2.5
+pandoc:
+  enabled: true
+  extra_args: []
+  reference_docx: ''
+mermaid:
+  enabled: true
+  image:
+    format: png
+    dpi: 300
+    scale: 1.0
+  render:
+    mmdc_path: mmdc
+    puppeteer_config: ''
+    timeout: 60
+version:
+  number: 1.0.0
+  label: ''
+  date: ''
+styles:
+  toc:
+    enabled: true
+    depth: 3
+    title: 目录
+  table:
+    style: Table Grid
+    autofit: true
+    header_bold: true
+    header_shading: '#D9E2F3'
+  paragraph:
+    line_spacing: 1.15
+    space_after: 6.0
+    first_line_indent: 0.0
+  heading:
+    levels: {}
+backup:
+  enabled: true
+  max_backups: 5
+  suffix: .bak
+_pipeline:
+  template: report
+  generated_by: docx-pipeline 1.0.0

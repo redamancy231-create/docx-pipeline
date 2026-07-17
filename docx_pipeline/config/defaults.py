@@ -24,7 +24,7 @@ DEFAULT: Dict[str, Any] = {
     },
     "paths": {
         "md_source": "output/markdown",
-        "docx_output": "output/docx",
+        "docx_output": "output/document.docx",
         "json_source": "output/json",
         "work_dir": "work",
         "reference_docx": "",
@@ -116,7 +116,7 @@ ACADEMIC: Dict[str, Any] = {
     },
     "paths": {
         "md_source": "output/markdown",
-        "docx_output": "output/docx",
+        "docx_output": "output/document.docx",
         "json_source": "output/json",
         "work_dir": "work",
         "reference_docx": "",
@@ -212,7 +212,7 @@ REPORT: Dict[str, Any] = {
     },
     "paths": {
         "md_source": "output/markdown",
-        "docx_output": "output/docx",
+        "docx_output": "output/document.docx",
         "json_source": "output/json",
         "work_dir": "work",
         "reference_docx": "",
@@ -303,7 +303,7 @@ STRATEGY: Dict[str, Any] = {
     },
     "paths": {
         "md_source": "output/markdown",
-        "docx_output": "output/docx",
+        "docx_output": "output/document.docx",
         "json_source": "output/json",
         "work_dir": "work",
         "reference_docx": "",
