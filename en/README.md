@@ -136,6 +136,16 @@ docx-pipeline convert --config ./project.yaml --dry-run
 - Mermaid rendering requires Node.js and mermaid-cli; these are not bundled with docx-pipeline.
 - Chinese typography features (fonts, indentation, heading colors) are designed for CJK documents; English or other Latin-script documents should use Pandoc directly or other tools.
 
+## Planned Improvements
+
+The following features are on the roadmap. Feedback via Issues/Discussions is welcome to help prioritize:
+
+- **Batch conversion**: Convert an entire directory of Markdown files to corresponding DOCX files, useful for multi-chapter documents or batch report generation
+- **Example gallery**: Reproducible input Markdown + output DOCX screenshots for each template, so you can quickly see the visual results
+- **Installation troubleshooting guide**: Cover common setup issues on Windows/macOS/Linux, Chinese font configuration, and optional dependency diagnostics
+
+> 💡 These features are not yet scheduled. If you particularly need one, let us know in GitHub Issues — user feedback accelerates prioritization.
+
 ## Command Reference
 
 ### `init` — Initialize the Project Configuration

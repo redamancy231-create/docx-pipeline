@@ -138,6 +138,16 @@ docx-pipeline convert --config ./project.yaml --dry-run
 - Mermaid 渲染需要 Node.js 和 mermaid-cli；這兩個依賴不隨 docx-pipeline 一起提供。
 - 中文排版功能（字型、縮排、標題顏色等）專門針對 CJK 文件設計；英文或其他拉丁字母文件建議直接使用 Pandoc 或其他工具。
 
+## 計劃中的改進 | Planned Improvements
+
+以下功能已在計劃中，歡迎透過 Issue/Discussion 回饋優先順序：
+
+- **批量轉換**：一鍵將整個目錄的 Markdown 文件轉換為對應 DOCX，適合多章節文件或批量報告生成
+- **範例 gallery**：為每種範本提供可重現的輸入 Markdown + 輸出 DOCX 截圖，快速了解效果
+- **安裝排錯指南**：涵蓋 Windows/macOS/Linux 的常見安裝問題、中文字型配置、可選依賴排查
+
+> 💡 這些功能尚未排期。如果你特別需要某個，請在 GitHub Issues 中告訴我們——用戶回饋會加速優先級調整。
+
 ## 指令參考
 
 ### `init` —— 初始化專案設定
