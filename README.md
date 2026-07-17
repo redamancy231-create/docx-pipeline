@@ -105,6 +105,38 @@ docx-pipeline convert --config ./project.yaml --method pandoc
 docx-pipeline convert --config ./project.yaml --dry-run
 ```
 
+## 后端对比 | Backend Comparison
+
+| Feature | Pure Python | Pandoc |
+|---------|:-----------:|:------:|
+| Headings (h1-h6) | ✅ | ✅ |
+| Tables | ✅ | ✅ |
+| Code blocks (with highlighting) | ✅ (no syntax highlight) | ✅ (with syntax highlight) |
+| Inline code | ✅ | ✅ |
+| Bold / Italic | ✅ | ✅ |
+| Blockquotes | ✅ | ✅ |
+| Images | ✅ (embedded) | ✅ (embedded) |
+| Lists (ordered/unordered) | ✅ | ✅ |
+| Horizontal rules | ✅ | ✅ |
+| YAML frontmatter | ✅ (skipped) | ✅ (skipped) |
+| Mermaid diagrams | ✅ (pre-rendered PNG) | ✅ (pre-rendered PNG) |
+| Table of Contents | ✅ (field code) | ✅ (`--toc` flag) |
+| Chinese typography post-processing | ✅ | ❌ (needs reference docx) |
+| External dependencies | None | pandoc |
+| Output file size | Smaller | Larger (embeds resources) |
+
+## 何时选择哪个后端 | When to Use Which Backend
+
+- **Pure Python**：适合需要精确控制中文排版、不希望安装外部依赖或希望生成更小输出文件的文档。
+- **Pandoc**：适合需要代码语法高亮的技术文档，需要使用 `--number-sections`、`--toc` 等 Pandoc 功能，并且系统中已经安装 pandoc 的场景。
+- **Auto（默认）**：默认使用 Pure Python；仅当配置中 `pandoc.enabled=true` 且系统中已安装 pandoc 时使用 Pandoc。
+
+## 已知限制 | Known Limitations
+
+- Pure Python 后端不为代码块提供语法高亮。
+- Mermaid 渲染需要 Node.js 和 mermaid-cli；这两个依赖不随 docx-pipeline 一起提供。
+- 中文排版功能（字体、缩进、标题颜色等）专门针对 CJK 文档设计；英文或其他拉丁字母文档建议直接使用 Pandoc 或其他工具。
+
 ## 命令参考
 
 ### `init` —— 初始化项目配置
