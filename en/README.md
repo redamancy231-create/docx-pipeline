@@ -120,9 +120,9 @@ docx-pipeline convert --config ./project.yaml --dry-run
 | YAML frontmatter | ✅ (skipped) | ✅ (skipped) |
 | Mermaid diagrams | ✅ (pre-rendered PNG) | ✅ (pre-rendered PNG) |
 | Table of Contents | ✅ (field code) | ✅ (`--toc` flag) |
-| Chinese typography post-processing | ✅ | ❌ (needs reference docx) |
-| External dependencies | None | pandoc |
-| Output file size | Smaller | Larger (embeds resources) |
+| Chinese typography post-processing | ✅ | ❌ (requires a reference DOCX) |
+| External dependencies | None (standard); Node.js + mermaid-cli (Mermaid) | pandoc |
+| Output file size | Typically smaller | Typically larger (embeds resources) |
 
 ## When to Use Which Backend
 
