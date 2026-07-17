@@ -144,7 +144,7 @@ The following features are on the roadmap. Feedback via Issues/Discussions is we
 - **Example gallery**: Reproducible input Markdown + output DOCX screenshots for each template, so you can quickly see the visual results
 - **Installation troubleshooting guide**: Cover common setup issues on Windows/macOS/Linux, Chinese font configuration, and optional dependency diagnostics
 
-> 💡 These features are not yet scheduled. If you particularly need one, let us know in GitHub Issues — user feedback accelerates prioritization.
+> 💡 These features are not yet scheduled. If you particularly need one, please open a GitHub Issue — user feedback accelerates prioritization.
 
 ## Command Reference
 

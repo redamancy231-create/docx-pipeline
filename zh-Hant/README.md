@@ -146,7 +146,7 @@ docx-pipeline convert --config ./project.yaml --dry-run
 - **範例 gallery**：為每種範本提供可重現的輸入 Markdown + 輸出 DOCX 截圖，快速了解效果
 - **安裝排錯指南**：涵蓋 Windows/macOS/Linux 的常見安裝問題、中文字型配置、可選依賴排查
 
-> 💡 這些功能尚未排期。如果你特別需要某個，請在 GitHub Issues 中告訴我們——用戶回饋會加速優先級調整。
+> 💡 這些功能尚未排期。如果你特別需要某個，請在 GitHub Issues 中提出——用戶回饋會加速優先級調整。
 
 ## 指令參考
 
