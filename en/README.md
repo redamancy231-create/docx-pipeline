@@ -104,6 +104,38 @@ docx-pipeline convert --config ./project.yaml --method pandoc
 docx-pipeline convert --config ./project.yaml --dry-run
 ```
 
+## Backend Comparison
+
+| Feature | Pure Python | Pandoc |
+|---------|:-----------:|:------:|
+| Headings (h1-h6) | ✅ | ✅ |
+| Tables | ✅ | ✅ |
+| Code blocks (with highlighting) | ✅ (no syntax highlight) | ✅ (with syntax highlight) |
+| Inline code | ✅ | ✅ |
+| Bold / Italic | ✅ | ✅ |
+| Blockquotes | ✅ | ✅ |
+| Images | ✅ (embedded) | ✅ (embedded) |
+| Lists (ordered/unordered) | ✅ | ✅ |
+| Horizontal rules | ✅ | ✅ |
+| YAML frontmatter | ✅ (skipped) | ✅ (skipped) |
+| Mermaid diagrams | ✅ (pre-rendered PNG) | ✅ (pre-rendered PNG) |
+| Table of Contents | ✅ (field code) | ✅ (`--toc` flag) |
+| Chinese typography post-processing | ✅ | ❌ (needs reference docx) |
+| External dependencies | None | pandoc |
+| Output file size | Smaller | Larger (embeds resources) |
+
+## When to Use Which Backend
+
+- **Pure Python**: Ideal for documents requiring precise Chinese typography control, when you want to avoid external dependencies, or prefer smaller output files.
+- **Pandoc**: Best for technical documents needing code syntax highlighting, when you need `--number-sections` or `--toc` Pandoc features, and already have pandoc installed.
+- **Auto (default)**: Uses Pure Python by default; only switches to Pandoc when `pandoc.enabled=true` in config AND pandoc is installed on the system.
+
+## Known Limitations
+
+- The Pure Python backend does not provide syntax highlighting for code blocks.
+- Mermaid rendering requires Node.js and mermaid-cli; these are not bundled with docx-pipeline.
+- Chinese typography features (fonts, indentation, heading colors) are designed for CJK documents; English or other Latin-script documents should use Pandoc directly or other tools.
+
 ## Command Reference
 
 ### `init` — Initialize the Project Configuration
