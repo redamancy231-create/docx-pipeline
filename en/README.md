@@ -50,12 +50,12 @@ DOCX Pipeline solves the common problem of unpredictable Chinese typography when
 
 ## Preview
 
-> Markdown (left) → DOCX output (right) · More screenshots in [_screenshots/](_screenshots/)
+> Markdown (top) → DOCX output (bottom) · More screenshots in [_screenshots/](_screenshots/)
 
-| Academic Template | Report Template |
+| Academic | Report |
 |:---:|:---:|
-| Markdown source → [![Academic Markdown](_screenshots/screenshot_academic_markdown.png)](_screenshots/screenshot_academic_markdown.png) | Markdown source → [![Report Markdown](_screenshots/screenshot_report_markdown.png)](_screenshots/screenshot_report_markdown.png) |
-| DOCX output → [![Academic DOCX](_screenshots/screenshot_academic_docx.png)](_screenshots/screenshot_academic_docx.png) | DOCX output → [![Report DOCX](_screenshots/screenshot_report_docx.png)](_screenshots/screenshot_report_docx.png) |
+| [![Academic Markdown](_screenshots/screenshot_academic_markdown.png)](_screenshots/screenshot_academic_markdown.png) | [![Report Markdown](_screenshots/screenshot_report_markdown.png)](_screenshots/screenshot_report_markdown.png) |
+| [![Academic DOCX](_screenshots/screenshot_academic_docx.png)](_screenshots/screenshot_academic_docx.png) | [![Report DOCX](_screenshots/screenshot_report_docx.png)](_screenshots/screenshot_report_docx.png) |
 
 ## Installation
 
