@@ -137,6 +137,7 @@ docx-pipeline convert --config ./project.yaml --dry-run
 - Mermaid 渲染需要 Node.js 和 mermaid-cli；这两个依赖不随 docx-pipeline 一起提供。
 - 中文排版功能（字体、缩进、标题颜色等）专门针对 CJK 文档设计；英文或其他拉丁字母文档建议直接使用 Pandoc 或其他工具。
 - Pandoc 后端可能在长表格后产生多余空白页——这是 Pandoc 自身的分页行为，非 docx-pipeline 特有。如需精确控制分页，建议使用 Pure Python 后端或在 Word 中手动调整。
+- Mermaid 图表转为 DOCX 内嵌图片时，矢量格式可能出现文字显示不全，PNG 格式的尺寸/比例/宽高可能因图表复杂度差异而不够理想。Mermaid 图表的多样性使得难以找到通用参数适配所有场景——如对效果有更高要求，建议在 Word 中手动替换调整后的图片。
 
 ## 计划中的改进 | Planned Improvements
 
