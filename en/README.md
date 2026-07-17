@@ -48,6 +48,15 @@ DOCX Pipeline solves the common problem of unpredictable Chinese typography when
 - **Mermaid integration**: Automatic detection of Mermaid code blocks, which are rendered as images and embedded in the document
 - **Template system**: Four preset templates covering general documents, academic papers, technical reports, and quantitative strategy documents
 
+## Preview
+
+> Markdown (left) → DOCX output (right) · More screenshots in [_screenshots/](_screenshots/)
+
+| Academic Template | Report Template |
+|:---:|:---:|
+| Markdown source → [![Academic Markdown](_screenshots/screenshot_academic_markdown.png)](_screenshots/screenshot_academic_markdown.png) | Markdown source → [![Report Markdown](_screenshots/screenshot_report_markdown.png)](_screenshots/screenshot_report_markdown.png) |
+| DOCX output → [![Academic DOCX](_screenshots/screenshot_academic_docx.png)](_screenshots/screenshot_academic_docx.png) | DOCX output → [![Report DOCX](_screenshots/screenshot_report_docx.png)](_screenshots/screenshot_report_docx.png) |
+
 ## Installation
 
 ### Dependencies
