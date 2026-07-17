@@ -1,10 +1,21 @@
 ## 项目状态: DOCX Pipeline
 
-- 当前阶段: **v1.0.0 已发布**（2026-07-15）
-- 仓库: [redamancy231-create/docx-pipeline](https://github.com/redamancy231-create/docx-pipeline)
-- 测试: 17/17 通过
+- 当前阶段: **v1.0.0 已发布**（2026-07-15）+ 2026-07-17 重大更新
+- 测试: 17→38 tests（新增 test_pandoc_converter/test_cli_contract/test_mermaid_renderer/test_smoke）
 - CI: GitHub Actions (Python 3.10-3.12, Ubuntu/Windows/macOS) ✅
-- Release: v1.0.0 GitHub Release 已创建
+
+### 会话备注 (2026-07-17, Claude Code DeepSeek-V4-Pro + GPT-5.6-Sol)
+
+**GPT-5.6-Sol 执行 4 项改进 + 审查 + 修复：**
+- 新增 Python API (`docx_pipeline/pipeline.py` — DocxPipeline 类)
+- 测试覆盖扩展 (21 tests: pandoc converter + CLI contract + mermaid renderer)
+- 开发者 benchmark (`dev/bench.py` 553行)
+- README 后端能力矩阵 + "何时选择" + 已知限制 + 计划改进
+- 三语 README 同步(简/英/正体) + 截图预览
+- **8 bug 修复**(GPT-5.6-Sol 审计发现): 扩展名缺失/Pandoc默认值/CWD路径/首行缩进/tblW重复/init无md_file/裸config路径
+- report 模板页边距收紧至 1.8cm、默认 Pandoc→False
+- 已知限制扩展至 6 条(含 Pandoc 空白页/Mermaid 尺寸/页边距偏好)
+- gh CLI 中文文件名教训: Windows 上 release upload 须用英文名
 
 ### 审查闭合
 
