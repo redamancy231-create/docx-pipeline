@@ -731,6 +731,16 @@ class PandocConverter(AbstractConverter):
                 borders.append(border)
             tblPr.append(borders)
 
+            # Set table width to 100% and enable autofit
+            if table_cfg.autofit:
+                tblW = OxmlElement("w:tblW")
+                tblW.set(qn("w:w"), "5000")
+                tblW.set(qn("w:type"), "pct")
+                tblPr.append(tblW)
+                tblLayout = OxmlElement("w:tblLayout")
+                tblLayout.set(qn("w:type"), "autofit")
+                tblPr.append(tblLayout)
+
             # Apply header-row shading from config
             if table_cfg.header_shading and table.rows:
                 header_color = table_cfg.header_shading.lstrip("#")

@@ -3,7 +3,7 @@ project:
   root: E:/workspace/projects/docx_pipeline/_screenshots/academic_docx
 paths:
   md_source: E:/workspace/projects/docx_pipeline/_screenshots/academic_demo.md
-  docx_output: output/docx
+  docx_output: E:/workspace/projects/docx_pipeline/_screenshots/academic_docx/output/academic_demo.docx
   json_source: output/json
   work_dir: work
   reference_docx: ''

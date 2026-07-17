@@ -3,7 +3,7 @@ project:
   root: E:/workspace/projects/docx_pipeline/_screenshots/report_docx
 paths:
   md_source: E:/workspace/projects/docx_pipeline/_screenshots/report_demo.md
-  docx_output: output/docx
+  docx_output: E:/workspace/projects/docx_pipeline/_screenshots/report_docx/output/report_demo.docx
   json_source: output/json
   work_dir: work
   reference_docx: ''
@@ -36,7 +36,7 @@ page:
     left: 2.5
     right: 2.5
 pandoc:
-  enabled: true
+  enabled: false
   extra_args: []
   reference_docx: ''
 mermaid:
