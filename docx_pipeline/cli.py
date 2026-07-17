@@ -143,10 +143,10 @@ def init_cmd(
     paths = data.setdefault("paths", {})
     if md_file:
         paths["md_source"] = normalize_path(md_file)
-    paths.setdefault(
-        "docx_output",
-        os.path.join(project_dir, "output", f"{name}.docx").replace("\\", "/"),
-    )
+        docx_name = os.path.splitext(os.path.basename(md_file))[0] + ".docx"
+    else:
+        docx_name = f"{name}.docx"
+    paths["docx_output"] = os.path.join(project_dir, "output", docx_name).replace("\\", "/")
 
     # Record provenance
     data.setdefault("version", {})["number"] = __version__
