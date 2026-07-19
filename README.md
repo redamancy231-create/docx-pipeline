@@ -148,6 +148,7 @@ docx-pipeline convert --config ./project.yaml --dry-run
 - Pandoc 后端可能在长表格后产生多余空白页——这是 Pandoc 自身的分页行为，非 docx-pipeline 特有。如需精确控制分页，建议使用 Pure Python 后端或在 Word 中手动调整。
 - Mermaid 图表转为 DOCX 内嵌图片时，矢量格式可能出现文字显示不全，PNG 格式的尺寸/比例/宽高可能因图表复杂度差异而不够理想。Mermaid 图表的多样性使得难以找到通用参数适配所有场景——如对效果有更高要求，建议在 Word 中手动替换调整后的图片。
 - 默认页边距无法适配所有人的偏好——不同文档类型、阅读场景对留白的要求差异很大。如有需要，请在 `project.yaml` 的 `page.margins` 中自行调整。
+- **数学公式不支持**：LaTeX 数学公式（`$...$` 行内、`$$...$$` 块级、`\begin{equation}` 等）当前无法正确渲染。Pandoc 后端技术上支持通过 OMML 输出 Word 原生公式，但尚未开启相关扩展；Pure Python 后端则需要引入公式渲染引擎。如需写包含公式的学术论文，建议当前绕过此工具或手动在 Word 中插入公式。
 
 ## 计划中的改进 | Planned Improvements
 
@@ -156,6 +157,7 @@ docx-pipeline convert --config ./project.yaml --dry-run
 - **批量转换**：一键将整个目录的 Markdown 文件转换为对应 DOCX，适合多章节文档或批量报告生成
 - **示例 gallery**：为每种模板提供可复现的输入 Markdown + 输出 DOCX 截图，快速了解效果
 - **安装排错指南**：覆盖 Windows/macOS/Linux 的常见安装问题、中文字体配置、可选依赖排查
+- **数学公式支持**：通过 Pandoc 的 `tex_math_dollars` 扩展将 LaTeX 公式（`$...$` / `$$...$$`）转换为 Word OMML 原生公式格式；Pure Python 后端考虑引入 LaTeX→MathML/OMML 渲染管线
 
 > 💡 这些功能尚未排期。如果你特别需要某个，请在 GitHub Issues 中提出——用户反馈会加速优先级调整。
 
