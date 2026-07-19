@@ -156,7 +156,6 @@ docx-pipeline convert --config ./project.yaml --dry-run
 以下功能已在計劃中，歡迎透過 Issue/Discussion 回饋優先順序：
 
 - **批量轉換**：一鍵將整個目錄的 Markdown 文件轉換為對應 DOCX，適合多章節文件或批量報告生成
-- **範例 gallery**：為每種範本提供可重現的輸入 Markdown + 輸出 DOCX 截圖，快速了解效果
 - **安裝排錯指南**：涵蓋 Windows/macOS/Linux 的常見安裝問題、中文字型配置、可選依賴排查
 - **數學公式支援**：透過 Pandoc 的 `tex_math_dollars` 擴展將 LaTeX 公式（`$...$` / `$$...$$`）轉換為 Word OMML 原生公式格式；Pure Python 後端考慮引入 LaTeX→MathML/OMML 渲染管線
 

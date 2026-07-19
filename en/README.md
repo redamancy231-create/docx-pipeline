@@ -154,7 +154,6 @@ docx-pipeline convert --config ./project.yaml --dry-run
 The following features are on the roadmap. Feedback via Issues/Discussions is welcome to help prioritize:
 
 - **Batch conversion**: Convert an entire directory of Markdown files to corresponding DOCX files, useful for multi-chapter documents or batch report generation
-- **Example gallery**: Reproducible input Markdown + output DOCX screenshots for each template, so you can quickly see the visual results
 - **Installation troubleshooting guide**: Cover common setup issues on Windows/macOS/Linux, Chinese font configuration, and optional dependency diagnostics
 - **Math formula support**: Convert LaTeX formulas (`$...$` / `$$...$$`) to Word OMML native equation format via Pandoc's `tex_math_dollars` extension; explore LaTeX→MathML/OMML rendering pipeline for the Pure Python backend
 

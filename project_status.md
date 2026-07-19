@@ -46,7 +46,6 @@
 ### 待定
 
 - PyPI 发布（当前 `pip install git+...` 可用）
-- README 输出截图（需先跑一次转换生成样本 DOCX）
 
 ## Next Steps
 
