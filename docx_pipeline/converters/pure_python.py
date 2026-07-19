@@ -34,6 +34,7 @@ from docx_pipeline.converters.shared import (
     hex_to_rgb,
     set_cell_shading,
 )
+from docx_pipeline.data.math_symbols import MATH_SYMBOLS as _MATH_SYMBOLS
 from docx_pipeline.converters.markdown_parser import (
     Block,
     BlockquoteBlock,
@@ -63,6 +64,18 @@ class PurePythonConverter(AbstractConverter):
     All styling decisions (fonts, sizes, colors, margins, page geometry)
     are read from the bound :class:`DocxPipelineConfig`.
     """
+
+    _MATH_PLACEHOLDER_RE = re.compile(
+        r"__DOCX_PIPELINE_MATH_\d{6}__"
+    )
+    _DISPLAY_MATH_RE = re.compile(
+        r"(?<!\\)\$\$(.+?)(?<!\\)\$\$", re.DOTALL
+    )
+    _INLINE_MATH_RE = re.compile(
+        r"(?<![\\$])\$(?!\$)([^$\n]+?)(?<!\\)\$(?!\$)"
+    )
+    _INLINE_CODE_SPAN_RE = re.compile(r"(`[^`\n]*`)")
+    _FENCE_START_RE = re.compile(r"^\s*(`{3,}|~{3,})")
 
     # ------------------------------------------------------------------
     # convert
@@ -123,6 +136,10 @@ class PurePythonConverter(AbstractConverter):
                 _logger.warning("MermaidRenderer not available", exc_info=True)
             except Exception:
                 _logger.warning("Mermaid pre-rendering failed, keeping raw blocks", exc_info=True)
+
+        # 1.75. Protect math from the Markdown parser. Display math is
+        # extracted first so its dollar pairs cannot be consumed as inline math.
+        content, self._math_placeholders = self._extract_math_placeholders(content)
 
         # Save resolved paths for image resolution later
         self._resolved_md_dir = md_path.parent.resolve()
@@ -191,6 +208,417 @@ class PurePythonConverter(AbstractConverter):
             doc.core_properties.version = self.config.version.number
 
     # ------------------------------------------------------------------
+    # Math extraction and OMML generation
+    # ------------------------------------------------------------------
+
+    def _extract_math_placeholders(
+        self, content: str
+    ) -> Tuple[str, Dict[str, Tuple[str, bool]]]:
+        """Replace LaTeX math spans with parser-safe placeholders.
+
+        Display math is extracted before inline math. Fenced code blocks and
+        inline code spans are deliberately left untouched so code examples do
+        not become equations.
+        """
+        placeholders: Dict[str, Tuple[str, bool]] = {}
+        counter = 0
+
+        def new_placeholder(latex: str, is_display: bool) -> str:
+            nonlocal counter
+            counter += 1
+            placeholder = f"__DOCX_PIPELINE_MATH_{counter:06d}__"
+            placeholders[placeholder] = (latex, is_display)
+            return placeholder
+
+        def process_prose(prose: str) -> str:
+            # Inline code is protected before either dollar-delimited form is
+            # considered. The Markdown parser handles the backticks later.
+            parts = self._INLINE_CODE_SPAN_RE.split(prose)
+            for index in range(0, len(parts), 2):
+                part = parts[index]
+
+                def replace_display(match: re.Match[str]) -> str:
+                    latex = match.group(1).strip()
+                    if not latex:
+                        return match.group(0)
+                    placeholder = new_placeholder(latex, True)
+                    # Blank lines force a display placeholder to be parsed as
+                    # its own block even when the source delimiters were not.
+                    return f"\n\n{placeholder}\n\n"
+
+                part = self._DISPLAY_MATH_RE.sub(replace_display, part)
+
+                def replace_inline(match: re.Match[str]) -> str:
+                    latex = match.group(1).strip()
+                    if not latex:
+                        return match.group(0)
+                    return new_placeholder(latex, False)
+
+                parts[index] = self._INLINE_MATH_RE.sub(replace_inline, part)
+            return "".join(parts)
+
+        # Process prose chunks while copying fenced code blocks byte-for-byte.
+        output: List[str] = []
+        prose_lines: List[str] = []
+        fence_char: Optional[str] = None
+        fence_length = 0
+
+        def flush_prose() -> None:
+            if prose_lines:
+                output.append(process_prose("".join(prose_lines)))
+                prose_lines.clear()
+
+        for line in content.splitlines(keepends=True):
+            if fence_char is None:
+                fence_match = self._FENCE_START_RE.match(line)
+                if fence_match:
+                    flush_prose()
+                    marker_text = fence_match.group(1)
+                    fence_char = marker_text[0]
+                    fence_length = len(marker_text)
+                    output.append(line)
+                else:
+                    prose_lines.append(line)
+                continue
+
+            output.append(line)
+            stripped = line.strip()
+            if (
+                len(stripped) >= fence_length
+                and stripped
+                and set(stripped) == {fence_char}
+            ):
+                fence_char = None
+                fence_length = 0
+
+        flush_prose()
+        return "".join(output), placeholders
+
+    def _latex_to_omml(self, latex: str):
+        """Return an ``m:oMath`` tree for supported LaTeX, or ``None``.
+
+        The parser intentionally implements only a small independent subset:
+        fractions, radicals, scripts, sum/integral operators, and basic text
+        or symbol commands. Any malformed or unknown construct rejects the
+        whole formula so the caller can preserve its literal source text.
+        """
+        try:
+            nodes, position = self._parse_math_sequence(latex, 0)
+            position = self._skip_math_whitespace(latex, position)
+            if position != len(latex) or not nodes:
+                return None
+            math = OxmlElement("m:oMath")
+            for node in nodes:
+                math.append(node)
+            return math
+        except (IndexError, ValueError):
+            return None
+
+    @staticmethod
+    def _skip_math_whitespace(latex: str, position: int) -> int:
+        while position < len(latex) and latex[position].isspace():
+            position += 1
+        return position
+
+    def _parse_math_sequence(
+        self,
+        latex: str,
+        position: int,
+        closing: Optional[str] = None,
+    ) -> Tuple[List[object], int]:
+        nodes: List[object] = []
+        while True:
+            position = self._skip_math_whitespace(latex, position)
+            if position >= len(latex):
+                if closing is not None:
+                    raise ValueError("Unclosed math group")
+                return nodes, position
+            if closing is not None and latex[position] == closing:
+                return nodes, position + 1
+            if latex[position] in "}]":
+                raise ValueError("Unexpected math group terminator")
+
+            atom, position = self._parse_math_atom(latex, position)
+            atom, position = self._parse_math_scripts(latex, position, atom)
+            nodes.extend(atom)
+
+    def _parse_math_atom(
+        self, latex: str, position: int
+    ) -> Tuple[List[object], int]:
+        char = latex[position]
+        if char == "{":
+            return self._parse_math_sequence(latex, position + 1, "}")
+        if char == "\\":
+            return self._parse_math_command(latex, position + 1)
+        if char in "_^$&%#[]":
+            raise ValueError(f"Unsupported math token: {char}")
+
+        start = position
+        while position < len(latex):
+            char = latex[position]
+            if char.isspace() or char in "\\{}[]_^$&%#":
+                break
+            position += 1
+        if position == start:
+            raise ValueError("Cannot parse math atom")
+        return [self._make_math_run(latex[start:position])], position
+
+    def _parse_math_command(
+        self, latex: str, position: int
+    ) -> Tuple[List[object], int]:
+        if position >= len(latex):
+            raise ValueError("Trailing backslash in math")
+
+        if latex[position].isalpha():
+            start = position
+            while position < len(latex) and latex[position].isalpha():
+                position += 1
+            command = latex[start:position]
+        else:
+            command = latex[position]
+            position += 1
+
+        if command == "frac":
+            numerator, position = self._parse_required_math_group(latex, position)
+            denominator, position = self._parse_required_math_group(latex, position)
+            fraction = OxmlElement("m:f")
+            fraction.append(self._make_math_argument("m:num", numerator))
+            fraction.append(self._make_math_argument("m:den", denominator))
+            return [fraction], position
+
+        if command == "sqrt":
+            position = self._skip_math_whitespace(latex, position)
+            degree: List[object] = []
+            if position < len(latex) and latex[position] == "[":
+                degree, position = self._parse_math_sequence(
+                    latex, position + 1, "]"
+                )
+            radicand, position = self._parse_required_math_group(latex, position)
+
+            radical = OxmlElement("m:rad")
+            radical_properties = OxmlElement("m:radPr")
+            degree_hidden = OxmlElement("m:degHide")
+            degree_hidden.set(qn("m:val"), "off" if degree else "on")
+            radical_properties.append(degree_hidden)
+            radical.append(radical_properties)
+            radical.append(self._make_math_argument("m:deg", degree))
+            radical.append(self._make_math_argument("m:e", radicand))
+            return [radical], position
+
+        if command in {"sum", "int"}:
+            return self._parse_nary(latex, position, command)
+
+        symbol = _MATH_SYMBOLS.get(command)
+        if symbol is not None:
+            return [self._make_math_run(symbol)], position
+
+        escaped_symbols = {
+            "{": "{", "}": "}", "_": "_", "%": "%", "#": "#",
+            "&": "&", "$": "$", ",": " ", ";": " ", "!": "",
+            " ": " ",
+        }
+        if command in escaped_symbols:
+            text = escaped_symbols[command]
+            if not text:
+                return [], position
+            return [self._make_math_run(text)], position
+
+        raise ValueError(f"Unsupported LaTeX command: \\{command}")
+
+    def _parse_required_math_group(
+        self, latex: str, position: int
+    ) -> Tuple[List[object], int]:
+        position = self._skip_math_whitespace(latex, position)
+        if position >= len(latex) or latex[position] != "{":
+            raise ValueError("Expected a braced math argument")
+        nodes, position = self._parse_math_sequence(latex, position + 1, "}")
+        if not nodes:
+            raise ValueError("Empty math argument")
+        return nodes, position
+
+    def _parse_math_script_argument(
+        self, latex: str, position: int
+    ) -> Tuple[List[object], int]:
+        position = self._skip_math_whitespace(latex, position)
+        if position >= len(latex):
+            raise ValueError("Missing script argument")
+        if latex[position] == "{":
+            nodes, position = self._parse_math_sequence(
+                latex, position + 1, "}"
+            )
+        else:
+            nodes, position = self._parse_math_atom(latex, position)
+        if not nodes:
+            raise ValueError("Empty script argument")
+        return nodes, position
+
+    def _parse_math_scripts(
+        self, latex: str, position: int, base: List[object]
+    ) -> Tuple[List[object], int]:
+        seen = set()
+        while True:
+            script_position = self._skip_math_whitespace(latex, position)
+            if (
+                script_position >= len(latex)
+                or latex[script_position] not in "_^"
+            ):
+                return base, position
+
+            script_kind = latex[script_position]
+            if script_kind in seen:
+                raise ValueError("Duplicate math script")
+            seen.add(script_kind)
+            script, position = self._parse_math_script_argument(
+                latex, script_position + 1
+            )
+            if script_kind == "^":
+                scripted = OxmlElement("m:sSup")
+                scripted.append(self._make_math_argument("m:e", base))
+                scripted.append(self._make_math_argument("m:sup", script))
+            else:
+                scripted = OxmlElement("m:sSub")
+                scripted.append(self._make_math_argument("m:e", base))
+                scripted.append(self._make_math_argument("m:sub", script))
+            base = [scripted]
+
+    def _parse_nary(
+        self, latex: str, position: int, command: str
+    ) -> Tuple[List[object], int]:
+        lower: Optional[List[object]] = None
+        upper: Optional[List[object]] = None
+        seen = set()
+
+        while True:
+            script_position = self._skip_math_whitespace(latex, position)
+            if (
+                script_position >= len(latex)
+                or latex[script_position] not in "_^"
+            ):
+                break
+            kind = latex[script_position]
+            if kind in seen:
+                raise ValueError("Duplicate n-ary limit")
+            seen.add(kind)
+            value, position = self._parse_math_script_argument(
+                latex, script_position + 1
+            )
+            if kind == "_":
+                lower = value
+            else:
+                upper = value
+
+        nary = OxmlElement("m:nary")
+        properties = OxmlElement("m:naryPr")
+        character = OxmlElement("m:chr")
+        character.set(
+            qn("m:val"), "\u2211" if command == "sum" else "\u222b"
+        )
+        properties.append(character)
+        limit_location = OxmlElement("m:limLoc")
+        limit_location.set(qn("m:val"), "undOvr")
+        properties.append(limit_location)
+        sub_hidden = OxmlElement("m:subHide")
+        sub_hidden.set(qn("m:val"), "off" if lower else "on")
+        properties.append(sub_hidden)
+        sup_hidden = OxmlElement("m:supHide")
+        sup_hidden.set(qn("m:val"), "off" if upper else "on")
+        properties.append(sup_hidden)
+        nary.append(properties)
+
+        lower_nodes = lower or [self._make_math_run("\u200b")]
+        upper_nodes = upper or [self._make_math_run("\u200b")]
+        nary.append(self._make_math_argument("m:sub", lower_nodes))
+        nary.append(self._make_math_argument("m:sup", upper_nodes))
+        nary.append(
+            self._make_math_argument(
+                "m:e", [self._make_math_run("\u200b")]
+            )
+        )
+        return [nary], position
+
+    @staticmethod
+    def _make_math_run(text: str):
+        run = OxmlElement("m:r")
+        text_element = OxmlElement("m:t")
+        if text.startswith(" ") or text.endswith(" "):
+            text_element.set(qn("xml:space"), "preserve")
+        text_element.text = text
+        run.append(text_element)
+        return run
+
+    @staticmethod
+    def _make_math_argument(tag: str, nodes: List[object]):
+        argument = OxmlElement(tag)
+        for node in nodes:
+            argument.append(node)
+        return argument
+
+    def _add_display_math(self, doc: Document, latex: str) -> None:
+        math = self._latex_to_omml(latex)
+        if math is None:
+            self._add_paragraph(doc, f"$${latex}$$", [])
+            return
+
+        paragraph = doc.add_paragraph()
+        paragraph.paragraph_format.space_after = Pt(
+            self.config.styles.paragraph.space_after
+        )
+        math_paragraph = OxmlElement("m:oMathPara")
+        properties = OxmlElement("m:oMathParaPr")
+        justification = OxmlElement("m:jc")
+        justification.set(qn("m:val"), "center")
+        properties.append(justification)
+        math_paragraph.append(properties)
+        math_paragraph.append(math)
+        paragraph._p.append(math_paragraph)
+
+    def _append_text_with_math(
+        self,
+        paragraph,
+        text: str,
+        *,
+        size: float,
+        bold: Optional[bool] = None,
+        italic: Optional[bool] = None,
+        color: Optional[Tuple[int, int, int]] = None,
+        mono: bool = False,
+        level_override: Optional[dict] = None,
+    ) -> None:
+        """Append styled text and inline OMML in exact source order."""
+        placeholders = getattr(self, "_math_placeholders", {})
+        cursor = 0
+
+        def add_text(value: str) -> None:
+            if not value:
+                return
+            run = paragraph.add_run(value)
+            self._set_run_font(
+                run,
+                size=size,
+                bold=bold,
+                italic=italic,
+                color=color,
+                mono=mono,
+                level_override=level_override,
+            )
+
+        for match in self._MATH_PLACEHOLDER_RE.finditer(text):
+            add_text(text[cursor:match.start()])
+            placeholder = match.group(0)
+            math_data = placeholders.get(placeholder)
+            if math_data is None or math_data[1]:
+                add_text(placeholder)
+            else:
+                latex = math_data[0]
+                math = self._latex_to_omml(latex)
+                if math is None:
+                    add_text(f"${latex}$")
+                else:
+                    paragraph._p.append(math)
+            cursor = match.end()
+        add_text(text[cursor:])
+
+    # ------------------------------------------------------------------
     # Block dispatcher
     # ------------------------------------------------------------------
 
@@ -217,7 +645,15 @@ class PurePythonConverter(AbstractConverter):
             if isinstance(block, HeadingBlock):
                 self._add_heading(doc, block.level, block.text)
             elif isinstance(block, ParagraphBlock):
-                self._add_paragraph_or_image(doc, block.text, block.formats)
+                math_data = getattr(self, "_math_placeholders", {}).get(
+                    block.text.strip()
+                )
+                if math_data is not None and math_data[1]:
+                    self._add_display_math(doc, math_data[0])
+                else:
+                    self._add_paragraph_or_image(
+                        doc, block.text, block.formats
+                    )
             elif isinstance(block, CodeBlock):
                 self._add_code_block(doc, block.lines, block.language)
             elif isinstance(block, TableBlock):
@@ -311,7 +747,6 @@ class PurePythonConverter(AbstractConverter):
         level = max(1, min(6, level))
 
         p = doc.add_heading(level=level)
-        run = p.add_run(text)
 
         # Resolve size: per-level override > font_sizes.headings > default
         heading_dict = self.config.font_sizes.headings
@@ -340,8 +775,9 @@ class PurePythonConverter(AbstractConverter):
         bold = level_overrides.get("bold", True)
         italic = level_overrides.get("italic", False)
 
-        self._set_run_font(
-            run,
+        self._append_text_with_math(
+            p,
+            text,
             size=size_pt,
             bold=bold,
             italic=italic,
@@ -404,10 +840,9 @@ class PurePythonConverter(AbstractConverter):
                 color = hex_to_rgb(bc)
 
         if not formats:
-            # No inline formatting — single plain run
-            run = p.add_run(text)
-            self._set_run_font(
-                run,
+            self._append_text_with_math(
+                p,
+                text,
                 size=body_size,
                 bold=bold,
                 italic=italic,
@@ -417,9 +852,9 @@ class PurePythonConverter(AbstractConverter):
         else:
             for fmt in formats:
                 if isinstance(fmt, Bold):
-                    run = p.add_run(fmt.text)
-                    self._set_run_font(
-                        run,
+                    self._append_text_with_math(
+                        p,
+                        fmt.text,
                         size=body_size,
                         bold=True,
                         italic=italic,
@@ -427,9 +862,9 @@ class PurePythonConverter(AbstractConverter):
                         mono=mono,
                     )
                 elif isinstance(fmt, InlineCode):
-                    run = p.add_run(fmt.text)
-                    self._set_run_font(
-                        run,
+                    self._append_text_with_math(
+                        p,
+                        fmt.text,
                         size=body_size - 0.5,
                         bold=False,
                         italic=italic,
@@ -439,9 +874,9 @@ class PurePythonConverter(AbstractConverter):
                         mono=True,
                     )
                 elif isinstance(fmt, PlainText):
-                    run = p.add_run(fmt.text)
-                    self._set_run_font(
-                        run,
+                    self._append_text_with_math(
+                        p,
+                        fmt.text,
                         size=body_size,
                         bold=bold,
                         italic=italic,
@@ -510,21 +945,20 @@ class PurePythonConverter(AbstractConverter):
             for j in range(num_cols):
                 cell = table.rows[i].cells[j]
                 cell.text = ""
+                paragraph = cell.paragraphs[0]
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                paragraph.paragraph_format.space_before = Pt(1)
+                paragraph.paragraph_format.space_after = Pt(1)
                 if j < len(row):
-                    cell.text = row[j]
-                for paragraph in cell.paragraphs:
-                    paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
-                    paragraph.paragraph_format.space_before = Pt(1)
-                    paragraph.paragraph_format.space_after = Pt(1)
-                    for run in paragraph.runs:
-                        is_header = (
-                            i == 0 and self.config.styles.table.header_bold
-                        )
-                        self._set_run_font(
-                            run,
-                            size=table_size,
-                            bold=is_header,
-                        )
+                    is_header = (
+                        i == 0 and self.config.styles.table.header_bold
+                    )
+                    self._append_text_with_math(
+                        paragraph,
+                        row[j],
+                        size=table_size,
+                        bold=is_header,
+                    )
                 if i == 0:
                     set_cell_shading(cell, header_shading)
 
@@ -553,9 +987,9 @@ class PurePythonConverter(AbstractConverter):
         body_size = self.config.font_sizes.body
 
         if not fmt_tokens:
-            run = p.add_run(text)
-            self._set_run_font(
-                run,
+            self._append_text_with_math(
+                p,
+                text,
                 size=body_size,
                 italic=True,
                 color=bq_color,
@@ -563,27 +997,27 @@ class PurePythonConverter(AbstractConverter):
         else:
             for fmt in fmt_tokens:
                 if isinstance(fmt, Bold):
-                    run = p.add_run(fmt.text)
-                    self._set_run_font(
-                        run,
+                    self._append_text_with_math(
+                        p,
+                        fmt.text,
                         size=body_size,
                         bold=True,
                         italic=True,
                         color=bq_color,
                     )
                 elif isinstance(fmt, InlineCode):
-                    run = p.add_run(fmt.text)
-                    self._set_run_font(
-                        run,
+                    self._append_text_with_math(
+                        p,
+                        fmt.text,
                         size=body_size - 0.5,
                         italic=False,
                         mono=True,
                         color=bq_color,
                     )
                 elif isinstance(fmt, PlainText):
-                    run = p.add_run(fmt.text)
-                    self._set_run_font(
-                        run,
+                    self._append_text_with_math(
+                        p,
+                        fmt.text,
                         size=body_size,
                         italic=True,
                         color=bq_color,
@@ -613,21 +1047,23 @@ class PurePythonConverter(AbstractConverter):
             p.paragraph_format.space_after = Pt(1)
 
             if not fmt_tokens:
-                run = p.add_run(item_text)
-                self._set_run_font(run, size=body_size)
+                self._append_text_with_math(
+                    p, item_text, size=body_size
+                )
             else:
                 for fmt in fmt_tokens:
                     if isinstance(fmt, Bold):
-                        run = p.add_run(fmt.text)
-                        self._set_run_font(run, size=body_size, bold=True)
+                        self._append_text_with_math(
+                            p, fmt.text, size=body_size, bold=True
+                        )
                     elif isinstance(fmt, InlineCode):
-                        run = p.add_run(fmt.text)
-                        self._set_run_font(
-                            run, size=body_size - 0.5, mono=True
+                        self._append_text_with_math(
+                            p, fmt.text, size=body_size - 0.5, mono=True
                         )
                     elif isinstance(fmt, PlainText):
-                        run = p.add_run(fmt.text)
-                        self._set_run_font(run, size=body_size)
+                        self._append_text_with_math(
+                            p, fmt.text, size=body_size
+                        )
 
     # ------------------------------------------------------------------
     # Horizontal rule

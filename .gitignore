@@ -27,6 +27,9 @@ _screenshots/*/project.yaml
 # Pipeline output (user-generated, not tracked)
 _pipeline_output/
 
+# Visual check output (generated DOCX for manual inspection)
+_visual_check/
+
 # Build artifacts
 tests/fixtures/_work/
 

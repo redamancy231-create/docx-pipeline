@@ -147,7 +147,7 @@ docx-pipeline convert --config ./project.yaml --dry-run
 - The Pandoc backend may produce an extra blank page after long tables — this is Pandoc's own pagination behavior, not specific to docx-pipeline. For precise page-break control, use the Pure Python backend or adjust manually in Word.
 - When converting Mermaid diagrams to embedded DOCX images, vector formats may have text clipping issues, and PNG format dimensions/ratios may vary with diagram complexity. The diversity of Mermaid diagrams makes it difficult to find universal parameters — if you need higher quality, consider replacing images manually in Word.
 - Default page margins will not suit everyone — different document types and reading scenarios call for different spacing. Adjust `page.margins` in `project.yaml` to fit your needs.
-- **Math formulas are not supported**: LaTeX math formulas (`$...$` inline, `$$...$$` display, `\begin{equation}` etc.) cannot be rendered correctly at this time. The Pandoc backend is technically capable of producing Word native equations via OMML but the required extensions are not yet enabled; the Pure Python backend would need a formula rendering engine. If you need to write academic papers with equations, consider skipping this tool for now or inserting formulas manually in Word.
+- **Math formulas (Pandoc backend recommended)**: The Pandoc backend supports LaTeX math formulas via `$...$` (inline), `$$...$$` (display), and `\(...\)`/`\[...\]` delimiters, converted to Word OMML native equation format — rendering quality verified by visual inspection. The Pure Python backend has an experimental prototype (fractions, radicals, scripts, n-ary operators, Greek letters) but OMML generation quality is not yet production-ready. **Use `--method pandoc` or set `pandoc.enabled=true` for math formula support.**
 
 ## Planned Improvements
 
@@ -155,7 +155,7 @@ The following features are on the roadmap. Feedback via Issues/Discussions is we
 
 - **Batch conversion**: Convert an entire directory of Markdown files to corresponding DOCX files, useful for multi-chapter documents or batch report generation
 - **Installation troubleshooting guide**: Cover common setup issues on Windows/macOS/Linux, Chinese font configuration, and optional dependency diagnostics
-- **Math formula support**: Convert LaTeX formulas (`$...$` / `$$...$$`) to Word OMML native equation format via Pandoc's `tex_math_dollars` extension; explore LaTeX→MathML/OMML rendering pipeline for the Pure Python backend
+- **Math formula support** (✅ Pandoc backend done; Pure Python prototype exists): The Pandoc backend explicitly fixes `tex_math_dollars` and adds `tex_math_single_backslash`. A Pure Python experimental prototype (563 lines) handles 6 formula structures; a long-term `latex2mathml` → OMML bridge is planned when Pure Python user demand justifies it.
 
 > 💡 These features are not yet scheduled. If you particularly need one, please open a GitHub Issue — user feedback accelerates prioritization.
 

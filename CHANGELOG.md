@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- **Math formula support (Pandoc backend)**: The Pandoc `markdown` reader already enabled `tex_math_dollars` by default, so `$...$` and `$$...$$` were already functional. This change explicitly fixes `tex_math_dollars` in the reader string to prevent regressions, and adds `tex_math_single_backslash` to support `\(...\)` (inline) and `\[...\]` (display) LaTeX delimiters. Pure Python backend does not yet support math formulas. ([#math-mvp])
+
 ## [1.0.0] — 2026-07-15
 
 ### Initial Release

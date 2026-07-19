@@ -213,6 +213,7 @@ class PandocConverter(AbstractConverter):
                 "+superscript+subscript+strikeout+footnotes"
                 "+definition_lists+example_lists+task_lists"
                 "+multiline_tables+simple_tables"
+                "+tex_math_dollars+tex_math_single_backslash"
             ),
             "--to",
             "docx",

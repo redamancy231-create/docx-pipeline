@@ -63,6 +63,7 @@ def test_build_pandoc_args_constructs_expected_resource_and_metadata_args(
         "+superscript+subscript+strikeout+footnotes"
         "+definition_lists+example_lists+task_lists"
         "+multiline_tables+simple_tables"
+        "+tex_math_dollars+tex_math_single_backslash"
     )
     assert args[:3] == ["pandoc", "--from", expected_reader]
     assert args[args.index("--to") + 1] == "docx"
