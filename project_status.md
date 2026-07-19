@@ -1,21 +1,26 @@
 ## 项目状态: DOCX Pipeline
 
-- 当前阶段: **v1.0.0 已发布**（2026-07-15）+ 2026-07-17 重大更新
-- 测试: 17→38 tests（新增 test_pandoc_converter/test_cli_contract/test_mermaid_renderer/test_smoke）
+- 当前阶段: **v1.1.0 已发布**（2026-07-20）
+- 测试: 52 tests（新增 9 个数学公式测试 + 5 个 Pure Python 测试）
 - CI: GitHub Actions (Python 3.10-3.12, Ubuntu/Windows/macOS) ✅
 
-### 会话备注 (2026-07-17, Claude Code DeepSeek-V4-Pro + GPT-5.6-Sol)
+### 会话备注 (2026-07-19/20, Claude Code DeepSeek-V4-Pro + GPT-5.6-Sol)
 
-**GPT-5.6-Sol 执行 4 项改进 + 审查 + 修复：**
-- 新增 Python API (`docx_pipeline/pipeline.py` — DocxPipeline 类)
-- 测试覆盖扩展 (21 tests: pandoc converter + CLI contract + mermaid renderer)
-- 开发者 benchmark (`dev/bench.py` 553行)
-- README 后端能力矩阵 + "何时选择" + 已知限制 + 计划改进
-- 三语 README 同步(简/英/正体) + 截图预览
-- **8 bug 修复**(GPT-5.6-Sol 审计发现): 扩展名缺失/Pandoc默认值/CWD路径/首行缩进/tblW重复/init无md_file/裸config路径
-- report 模板页边距收紧至 1.8cm、默认 Pandoc→False
-- 已知限制扩展至 6 条(含 Pandoc 空白页/Mermaid 尺寸/页边距偏好)
-- gh CLI 中文文件名教训: Windows 上 release upload 须用英文名
+**数学公式支持 v1.1.0：**
+- Pandoc 后端：显式固定 `tex_math_dollars` + 新增 `tex_math_single_backslash`（`\(...\)`/`\[...\]` 分隔符）
+- Pure Python 后端：GPT-5.6-Sol 独立实现 563 行 LaTeX→OMML 原型（6 种公式结构）
+- 符号表可复现生成管线：`dev/generate_math_symbols.py` → `data/math_symbols.py`（81 符号）
+- 9 个数学测试（Pandoc 5 + Pure Python 4），含 lxml XPath oracle
+- 目视验证：Pandoc 效果完美，Pure Python 标为实验性原型
+- CONTRIBUTING.md 新增代码来源条款
+- 三语 README 同步（推荐 Pandoc 后端用于数学公式）
+
+**MinerU 分析 + GPT-5.6-Sol 审查：**
+- Phase 1-3 全量架构对比分析（MinerU vs docx-pipeline）
+- 判定：不是重复造轮子（方向相反，天然互补）
+- 版权意见（GPT-5.6-Sol）：独立实现，风险低
+- GPT-5.6-Sol 审查 16 项发现，全部修复
+- 改进方案 + 来源备忘录 + 三种长期策略写入 `项目改进计划/docx-pipeline/`
 
 ### 审查闭合
 
@@ -25,6 +30,7 @@
 | R2 | GPT-5.6-Sol (Codex CLI) | 8 (2 MAJOR + 5 MEDIUM + 1 MINOR) | ✅ 全部修复 |
 | R3 | GPT-5.6-Sol (Codex CLI) | 2 (backup 断号 + landscape 宽度) | ✅ 全部修复 |
 | 页面审查 | GPT-5.6-Sol (Codex CLI) | 12 项改进建议 | ✅ 全部修复 |
+| **R4** | **GPT-5.6-Sol (Codex CLI)** | **16 (1 阻断 + 13 需修复 + 1 建议)** | **✅ 全部修复** |
 
 ### 本次会话完成（2026-07-15）
 
