@@ -19,8 +19,6 @@ English, 中文, or 正體中文 are all welcome. The primary documentation is i
 - 如果你在 Issue/PR 中引用外部代码片段，请标注来源和许可。
 - 本项目的数学公式相关代码为独立实现——请勿将 MinerU 的 OMML/LaTeX 代码粘贴到 PR 中。
 
-> 详见 `项目改进计划/docx-pipeline/provenance_memorandum_2026-07-20.md`。
-
 ## CLA | Contributor License Agreement
 
 There is **no CLA**. Contributions are accepted under the same MIT license as the project.
