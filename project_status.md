@@ -61,7 +61,23 @@
 
 - PyPI 发布（当前 `pip install git+...` 可用）
 
+### 会话备注 (2026-07-19/20, Claude Code DeepSeek-V4-Pro + GPT-5.6-Sol)
+
+见上方主条目。
+
+## 发现的问题
+
+- Pure Python 数学原型 OMML 渲染效果不及 Pandoc（目视验证）：分式/根号/上下标/大型运算符有不同程度渲染问题 → 务实方案：文档推荐 Pandoc，Pure Python 标实验性原型
+- `tex_math_dollars` 在 pandoc 3.1+ 默认已启用（GPT-5.6-Sol F01 发现）→ 已修正归因
+
 ## Next Steps
+
+```
+等 awesome-list PR 审核结果 → P1 → 等外部审核
+启动 v1.2.0 long-term（latex2mathml MathML→OMML 桥接）→ P2 → 等 Pure Python 用户数学需求足够 + pandoc 不可用场景明确
+批量转换 --batch → P2 → 等有明确用户场景
+PyPI 发布 → P2 → 等第一个外部 star/issue
+```
 
 - 等待 awesome-list PR 审核结果 → 如合并则代表外部生态认可
 - 第一个外部 star/issue → 触发 PyPI 发布决策
