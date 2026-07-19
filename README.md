@@ -9,6 +9,8 @@
 
 > **English Abstract**: DOCX Pipeline converts Markdown to production-quality Chinese DOCX files. It offers a dual backend (Pure Python via python-docx + Pandoc subprocess), automatic Mermaid diagram rendering, and 4 preset templates covering general documents, academic papers, technical reports, and quantitative strategy documents. Fonts, sizes, margins, line spacing, and table styles are fully configurable via YAML. Tested across 3 rounds of independent LLM review with 17 automated tests passing.
 
+> 💡 本工具解决的是 **Markdown → DOCX**。如果你需要反向操作（PDF/DOCX → Markdown），那是 MinerU 等提取工具的领域。
+
 ```mermaid
 flowchart LR
     MD["`**Markdown**`"] --> MM{"`含 Mermaid?`"}
