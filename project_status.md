@@ -43,6 +43,14 @@
 - 6 个旧仓库补齐 CHANGELOG（etf-pattern-match-pybind11 + claude-skills 额外补齐 SECURITY + Issue 模板）
 - 2 个 awesome-list PR 提交（awesome-scientific-writing #89 + awesome-markdown #135）
 
+### 会话备注 (2026-07-19, Claude Code DeepSeek-V4-Pro)
+
+**数学公式 + MinerU 方向定位：**
+- 三语 README 已知限制新增第7条：数学公式不支持
+- 三语 README 计划改进新增：Pandoc `tex_math_dollars` → OMML 方案
+- README 加 Markdown→DOCX 定位声明，与 MinerU（PDF→MD）区分方向
+- 移除已完成的示例 gallery 计划项 + project_status.md 截图待办
+
 ### 待定
 
 - PyPI 发布（当前 `pip install git+...` 可用）
