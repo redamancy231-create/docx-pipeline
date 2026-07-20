@@ -150,6 +150,7 @@ docx-pipeline convert --config ./project.yaml --dry-run
 - Pandoc 后端可能在长表格后产生多余空白页——这是 Pandoc 自身的分页行为，非 docx-pipeline 特有。如需精确控制分页，建议使用 Pure Python 后端或在 Word 中手动调整。
 - Mermaid 图表转为 DOCX 内嵌图片时，矢量格式可能出现文字显示不全，PNG 格式的尺寸/比例/宽高可能因图表复杂度差异而不够理想。Mermaid 图表的多样性使得难以找到通用参数适配所有场景——如对效果有更高要求，建议在 Word 中手动替换调整后的图片。
 - 默认页边距无法适配所有人的偏好——不同文档类型、阅读场景对留白的要求差异很大。如有需要，请在 `project.yaml` 的 `page.margins` 中自行调整。
+- **自动 TOC 与手工目录冲突**：pipeline 检测到"目录"标题后自动插入 Word TOC 域，但不会检查该标题下是否已有手工目录内容。如果源 Markdown 的"目录"章节包含手工链接列表（常见于 GitHub README），转换后会同时出现自动 TOC 域和手工目录，形成双目录。**规避方案**：在 `project.yaml` 中设置 `styles.toc.enabled: false` 禁用自动 TOC（使用手工目录），或在 Markdown 中删除手工目录后转换（使用自动 TOC）。
 - **数学公式（推荐 Pandoc 后端）**：Pandoc 后端通过 `tex_math_dollars` + `tex_math_single_backslash` 扩展将 LaTeX 公式（`$...$` / `$$...$$` / `\(...\)` / `\[...\]`）转换为 Word OMML 原生公式格式，渲染效果经目视验证。Pure Python 后端有实验性原型（支持分式/根号/上下标/大型运算符/希腊字母），但 OMML 生成质量不及 Pandoc。**如需数学公式支持，请使用 `--method pandoc` 或配置 `pandoc.enabled=true`。**
 
 ## 计划中的改进 | Planned Improvements
