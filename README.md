@@ -568,6 +568,7 @@ pandoc 并非必需的默认后端——仅 `report` 模板默认启用。如果
 | [etf-pattern-match-pybind11](https://github.com/redamancy231-create/etf-pattern-match-pybind11) | C++20/pybind11加速形态匹配ETF策略（DTW 37×） |
 | [claude-skills](https://github.com/redamancy231-create/claude-skills) | Claude Code Skills：会话交接、CLAUDE.md生成、预注册审计 |
 | [ma-case-study-pipeline](https://github.com/redamancy231-create/ma-case-study-pipeline) | 多模型协同学术流水线——8阶段+开卷/盲答对照 |
+| [methodology-handbook](https://github.com/redamancy231-create/methodology-handbook) | 本管线生成的公开实例——四章 50 条中英正體三语手册（docx-pipeline + Pandoc 渲染） |
 
 </details>
 
