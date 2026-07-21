@@ -1,7 +1,7 @@
 # CLAUDE.md — DOCX Pipeline
 
 > **模型来源 Model provenance**: DeepSeek-V4-Pro (via Claude Code CLI), 2026-07-22
-> **审查 Review**: GPT-5.6-Sol (Codex CLI) — 61/100 → 5 处事实错误已修正, 2026-07-21
+> **审查 Review**: GPT-5.6-Sol (Codex CLI) — 61/100 → 5 处事实错误已修正, 2026-07-22
 
 ## 项目定位
 
