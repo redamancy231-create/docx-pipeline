@@ -44,6 +44,7 @@
 - [gitnexus_analysis_20260722.json](_review/gitnexus_analysis_20260722.json) — GitNexus MCP 架构分析数据
 
 ## 文档
+- [CLAUDE.md](CLAUDE.md) — Agent 指令（架构约束/已知坑位/关键命令）
 - [README.md](README.md) — 使用文档（中文）
 - [en/README.md](en/README.md) — 使用文档（英文）
 - [zh-Hant/README.md](zh-Hant/README.md) — 使用文档（正體中文）
