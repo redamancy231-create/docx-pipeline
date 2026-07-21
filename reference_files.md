@@ -1,6 +1,6 @@
 # 关键文件索引
 
-> 最后更新: 2026-07-20
+> 最后更新: 2026-07-22
 
 ## 代码
 - [cli.py](docx_pipeline/cli.py) — Click CLI 入口（init/convert/validate/info）
@@ -38,6 +38,10 @@
 - [test_smoke.py](tests/test_smoke.py) — 冒烟测试（模板/双后端）
 - [test_math.py](tests/test_math.py) — Pandoc 数学公式测试（5 个）
 - [test_pure_python_math.py](tests/test_pure_python_math.py) — Pure Python 数学测试（4 个）
+
+## 审查与分析
+- [gitnexus_analysis_20260722.md](_review/gitnexus_analysis_20260722.md) — GitNexus MCP 架构分析报告
+- [gitnexus_analysis_20260722.json](_review/gitnexus_analysis_20260722.json) — GitNexus MCP 架构分析数据
 
 ## 文档
 - [README.md](README.md) — 使用文档（中文）

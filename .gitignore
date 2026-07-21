@@ -44,3 +44,7 @@ Thumbs.db
 *.bak
 *.backup
 project_status.md
+
+# GitNexus agent files (auto-generated, not for release)
+AGENTS.md
+.claude/
