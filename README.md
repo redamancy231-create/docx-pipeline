@@ -11,6 +11,8 @@
 
 > 💡 本工具解决的是 **Markdown → DOCX**。如果你需要反向操作（PDF/DOCX → Markdown），那是 MinerU 等提取工具的领域。
 
+> 📂 **计划 Fork 本项目？** 先读 [`docs/fork-modification-directions.md`](docs/fork-modification-directions.md) —— 14 个修改方向的全景分析（v1.2，经 GPT-5.6-Sol 魔鬼代言人审查）。含决策树、28 方向排序表、GitNexus 影响分析和 10 条反模式。
+
 ```mermaid
 flowchart LR
     MD["`**Markdown**`"] --> MM{"`含 Mermaid?`"}
@@ -40,6 +42,8 @@ flowchart LR
 - [模板说明](#模板说明)
 - [示例](#示例)
 - [注意事项](#注意事项)
+- [📂 Fork 修改指南](#📂-fork-修改指南)
+- [相关项目 | Related Projects](#相关项目--related-projects)
 - [项目结构](#项目结构)
 
 ## 简介
@@ -554,6 +558,26 @@ pandoc 并非必需的默认后端——仅 `report` 模板默认启用。如果
 2. 在 Word 中手动调整样式
 3. 保存调整后的 DOCX 作为 `reference_docx`
 4. 在配置中设置 `pandoc.reference_docx` 指向该文件
+
+## 📂 Fork 修改指南
+
+**[`docs/fork-modification-directions.md`](docs/fork-modification-directions.md)**（v1.2 · 经 GPT-5.6-Sol 魔鬼代言人审查）
+
+这是一份 **fork 后的全景导航文档**——覆盖 14 个修改方向，从多语言排版、批量转换到可插拔扩展架构。每个方向标注了实现门槛、外部依赖和独立价值。
+
+| 如果你想要... | 从这里开始 |
+|-------------|-----------|
+| 支持日文/韩文/英文排版 | → §1 多语言/区域排版支持 |
+| 批量转换整个目录 | → §5 批量转换 |
+| 增强数学公式 | → §3 数学公式增强 |
+| 扩展输出格式（LaTeX/Typst） | → §4 扩展输出格式 |
+| 做模板/样式生态 | → §6 模板生态系统 |
+| 集成 CI/CD | → §7 集成与自动化 |
+| 先了解不该做什么 | → §15 反模式（10 条） |
+
+> **不知道怎么选？** 文档开头的**决策树**（3 个问题）可以在 30 秒内帮你定位起点。
+
+---
 
 ## 相关项目 | Related Projects
 

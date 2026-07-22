@@ -29,6 +29,8 @@ flowchart LR
 
 將 Markdown 文件轉換為高品質 DOCX 檔案的命令列工具。提供 python-docx 原生後端與 pandoc 後端，內建 Mermaid 圖表渲染，提供 4 套預設中文範本。
 
+> 📂 **計劃 Fork 本專案？** 先讀 [`docs/fork-modification-directions.md`](../docs/fork-modification-directions.md) —— 14 個修改方向的全景分析（v1.2，經 GPT-5.6-Sol 魔鬼代言人審查）。含決策樹、28 方向排序表、GitNexus 影響分析和 10 條反模式。
+
 ## 目錄
 
 - [簡介](#簡介)
@@ -39,6 +41,8 @@ flowchart LR
 - [範本說明](#範本說明)
 - [範例](#範例)
 - [注意事項](#注意事項)
+- [📂 Fork 修改指南](#-fork-修改指南)
+- [相關專案 | Related Projects](#相關專案--related-projects)
 - [專案結構](#專案結構)
 
 ## 簡介
@@ -553,6 +557,26 @@ pandoc 並非必要依賴，也不是預設後端——僅 `report` 範本預設
 2. 在 Word 中手動調整樣式
 3. 儲存調整後的 DOCX 作為 `reference_docx`
 4. 在設定中將 `pandoc.reference_docx` 指向該檔案
+
+## 📂 Fork 修改指南
+
+**[`docs/fork-modification-directions.md`](../docs/fork-modification-directions.md)**（v1.2 · 經 GPT-5.6-Sol 魔鬼代言人審查）
+
+這是一份 **fork 後的全景導航文件**——涵蓋 14 個修改方向，從多語言排版、批量轉換到可插拔擴展架構。每個方向標註了實作門檻、外部依賴和獨立價值。
+
+| 如果你想要... | 從這裡開始 |
+|-------------|-----------|
+| 支援日文/韓文/英文排版 | → §1 多語言/區域排版支援 |
+| 批量轉換整個目錄 | → §5 批量轉換 |
+| 增強數學公式 | → §3 數學公式增強 |
+| 擴展輸出格式（LaTeX/Typst） | → §4 擴展輸出格式 |
+| 做範本/樣式生態 | → §6 範本生態系統 |
+| 整合 CI/CD | → §7 整合與自動化 |
+| 先了解不該做什麼 | → §15 反模式（10 條） |
+
+> **不知道怎麼選？** 文件開頭的**決策樹**（3 個問題）可以在 30 秒內幫你定位起點。
+
+---
 
 ## 相關專案 | Related Projects
 

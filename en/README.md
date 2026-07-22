@@ -9,6 +9,8 @@
 
 A command-line tool that converts Markdown documents into high-quality DOCX files. It supports dual backends—native generation with python-docx and conversion with pandoc—includes built-in Mermaid diagram rendering, and provides four preset templates for Chinese-language documents.
 
+> 📂 **Planning to fork?** Read [`docs/fork-modification-directions.md`](../docs/fork-modification-directions.md) first — a comprehensive guide to 14 fork directions (v1.2, reviewed by GPT-5.6-Sol as devil's advocate). Includes a decision tree, 28-direction ranking table, GitNexus impact analysis, and 10 anti-patterns.
+
 ```mermaid
 flowchart LR
     MD["`**Markdown**`"] --> MM{"`Mermaid?`"}
@@ -36,6 +38,7 @@ flowchart LR
 - [Template Reference](#template-reference)
 - [Examples](#examples)
 - [Notes](#notes)
+- [📂 Fork Guide](#-fork-guide)
 - [Related Projects | 相关项目](#related-projects--相关项目)
 - [Project Structure](#project-structure)
 
@@ -550,6 +553,26 @@ If you need finer-grained style control than the YAML configuration provides—f
 2. Adjust its styles manually in Word
 3. Save the adjusted DOCX as the `reference_docx`
 4. Set `pandoc.reference_docx` in the configuration to point to that file
+
+## 📂 Fork Guide
+
+**[`docs/fork-modification-directions.md`](../docs/fork-modification-directions.md)** (v1.2 · reviewed by GPT-5.6-Sol as devil's advocate)
+
+A comprehensive navigation document for forks — covering 14 modification directions with estimated effort and prerequisites for each.
+
+| If you want to... | Start here |
+|-------------------|-----------|
+| Support Japanese/Korean/English typography | → §1 Multi-language support |
+| Batch convert entire directories | → §5 Batch conversion |
+| Enhance math formula support | → §3 Math formula enhancements |
+| Add output formats (LaTeX/Typst) | → §4 Extended output formats |
+| Build a template ecosystem | → §6 Template ecosystem |
+| Integrate with CI/CD | → §7 Integration & automation |
+| Know what NOT to do | → §15 Anti-patterns (10 items) |
+
+> **Not sure where to start?** The **decision tree** at the top of the document helps you find your entry point in 30 seconds.
+
+---
 
 ## Related Projects | 相关项目
 
