@@ -1,7 +1,6 @@
 # DOCX Pipeline
 
 [![CI](https://github.com/redamancy231-create/docx-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/redamancy231-create/docx-pipeline/actions/workflows/ci.yml)
-[![PyPI](https://img.shields.io/pypi/v/docx-pipeline)](https://pypi.org/project/docx-pipeline/)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)]()
 [![License](https://img.shields.io/badge/license-MIT-green)]()
 
