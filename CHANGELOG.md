@@ -1,10 +1,16 @@
 # Changelog
 
+## [1.2.0] — 2026-07-22
+
+### Added
+
+- **Math formula support (Pure Python backend)**: Replaced hand-written LaTeX→OMML parser with a `latex2mathml` → MathML→OMML bridge architecture (`mathml2omml.py`, 681 lines). The LaTeX parsing correctness is delegated to the mature `latex2mathml` library; docx-pipeline independently maintains the MathML→OMML mapping layer covering 14 formula structure types (fractions, radicals, scripts, n-ary operators, accents, matrices, fences, limits, and more). 21 automated tests with lxml XPath oracles. MathML→OMML mapping patterns independently verified against markdown2docx (TimeEtcher, MIT) — two independent reasoning chains converged on the same three-layer architecture. Graceful degradation: unsupported formulas render as literal LaTeX text.
+
 ## [1.1.0] — 2026-07-20
 
 ### Added
 
-- **Math formula support (Pandoc backend)**: The Pandoc `markdown` reader already enabled `tex_math_dollars` by default, so `$...$` and `$$...$$` were already functional. This change explicitly fixes `tex_math_dollars` in the reader string to prevent regressions, and adds `tex_math_single_backslash` to support `\(...\)` (inline) and `\[...\]` (display) LaTeX delimiters. Pure Python backend does not yet support math formulas. ([#math-mvp])
+- **Math formula support (Pandoc backend)**: The Pandoc `markdown` reader already enabled `tex_math_dollars` by default, so `$...$` and `$$...$$` were already functional. This change explicitly fixes `tex_math_dollars` in the reader string to prevent regressions, and adds `tex_math_single_backslash` to support `\(...\)` (inline) and `\[...\]` (display) LaTeX delimiters.
 
 ## [1.0.0] — 2026-07-15
 

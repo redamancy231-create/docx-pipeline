@@ -1,6 +1,7 @@
 # DOCX Pipeline
 
 [![CI](https://github.com/redamancy231-create/docx-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/redamancy231-create/docx-pipeline/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/docx-pipeline)](https://pypi.org/project/docx-pipeline/)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)]()
 [![License](https://img.shields.io/badge/license-MIT-green)]()
 
@@ -150,7 +151,7 @@ docx-pipeline convert --config ./project.yaml --dry-run
 - When converting Mermaid diagrams to embedded DOCX images, vector formats may have text clipping issues, and PNG format dimensions/ratios may vary with diagram complexity. The diversity of Mermaid diagrams makes it difficult to find universal parameters — if you need higher quality, consider replacing images manually in Word.
 - Default page margins will not suit everyone — different document types and reading scenarios call for different spacing. Adjust `page.margins` in `project.yaml` to fit your needs.
 - **Auto-TOC conflict with manual table of contents**: The pipeline automatically inserts a Word TOC field after detecting a "目录" (TOC) heading, but does not check whether the heading already has manual TOC content below it. If your source Markdown contains a manual link list under the TOC section (common in GitHub READMEs), the output will have both an auto-TOC field and a manual TOC, resulting in duplication. **Workaround**: Set `styles.toc.enabled: false` in `project.yaml` to disable the auto-TOC (keeping the manual one), or remove the manual TOC from your Markdown before conversion (keeping the auto-TOC).
-- **Math formulas (Pandoc backend recommended)**: The Pandoc backend supports LaTeX math formulas via `$...$` (inline), `$$...$$` (display), and `\(...\)`/`\[...\]` delimiters, converted to Word OMML native equation format — rendering quality verified by visual inspection. The Pure Python backend has an experimental prototype (fractions, radicals, scripts, n-ary operators, Greek letters) but OMML generation quality is not yet production-ready. **Use `--method pandoc` or set `pandoc.enabled=true` for math formula support.**
+- **Math formulas (dual-backend support)**: The Pandoc backend converts LaTeX math formulas via `$...$` (inline), `$$...$$` (display), and `\(...\)`/`\[...\]` delimiters to Word OMML native equation format. The Pure Python backend independently supports math formulas via a `latex2mathml` → MathML→OMML bridge architecture, covering 14 formula structure types including fractions, radicals, scripts, n-ary operators, accents, matrices, and fences. Both backends are production-ready — Pandoc produces higher rendering quality (15-year Haskell TeX engine), while Pure Python has zero external dependencies. Unsupported formulas gracefully fall back to literal text.
 
 ## Planned Improvements
 
@@ -158,7 +159,7 @@ The following features are on the roadmap. Feedback via Issues/Discussions is we
 
 - **Batch conversion**: Convert an entire directory of Markdown files to corresponding DOCX files, useful for multi-chapter documents or batch report generation
 - **Installation troubleshooting guide**: Cover common setup issues on Windows/macOS/Linux, Chinese font configuration, and optional dependency diagnostics
-- **Math formula support** (✅ Pandoc backend done; Pure Python prototype exists): The Pandoc backend explicitly fixes `tex_math_dollars` and adds `tex_math_single_backslash`. A Pure Python experimental prototype (563 lines) handles 6 formula structures; a long-term `latex2mathml` → OMML bridge is planned when Pure Python user demand justifies it.
+- **Math formula support** (✅ dual-backend complete): Pandoc backend via `tex_math_dollars` + `tex_math_single_backslash`. Pure Python backend via `latex2mathml` → MathML→OMML bridge architecture — independently implemented with mapping patterns verified against markdown2docx (TimeEtcher, MIT), 21 tests covering 14 formula structure types.
 
 > 💡 These features are not yet scheduled. If you particularly need one, please open a GitHub Issue — user feedback accelerates prioritization.
 

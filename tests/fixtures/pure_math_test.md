@@ -14,7 +14,7 @@ $$
 \frac{-b + \sqrt{b^{2}-4ac}}{2a}
 $$
 
-Unsupported stays literal: $\begin{matrix}a&b\end{matrix}$.
+Unsupported stays literal: $\notacommand{x}$.
 
 Inline code stays literal: `$x^{2}$`.
 

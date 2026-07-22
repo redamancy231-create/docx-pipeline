@@ -45,6 +45,9 @@ Thumbs.db
 *.backup
 project_status.md
 
+# External model prompts and outputs (provenance reference, not release)
+_prompts/
+
 # GitNexus agent files (auto-generated, not for release)
 AGENTS.md
 .claude/

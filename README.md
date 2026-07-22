@@ -1,6 +1,7 @@
 # DOCX Pipeline
 
 [![CI](https://github.com/redamancy231-create/docx-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/redamancy231-create/docx-pipeline/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/docx-pipeline)](https://pypi.org/project/docx-pipeline/)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)]()
 [![License](https://img.shields.io/badge/license-MIT-green)]()
 
@@ -154,7 +155,7 @@ docx-pipeline convert --config ./project.yaml --dry-run
 - Mermaid 图表转为 DOCX 内嵌图片时，矢量格式可能出现文字显示不全，PNG 格式的尺寸/比例/宽高可能因图表复杂度差异而不够理想。Mermaid 图表的多样性使得难以找到通用参数适配所有场景——如对效果有更高要求，建议在 Word 中手动替换调整后的图片。
 - 默认页边距无法适配所有人的偏好——不同文档类型、阅读场景对留白的要求差异很大。如有需要，请在 `project.yaml` 的 `page.margins` 中自行调整。
 - **自动 TOC 与手工目录冲突**：pipeline 检测到"目录"标题后自动插入 Word TOC 域，但不会检查该标题下是否已有手工目录内容。如果源 Markdown 的"目录"章节包含手工链接列表（常见于 GitHub README），转换后会同时出现自动 TOC 域和手工目录，形成双目录。**规避方案**：在 `project.yaml` 中设置 `styles.toc.enabled: false` 禁用自动 TOC（使用手工目录），或在 Markdown 中删除手工目录后转换（使用自动 TOC）。
-- **数学公式（推荐 Pandoc 后端）**：Pandoc 后端通过 `tex_math_dollars` + `tex_math_single_backslash` 扩展将 LaTeX 公式（`$...$` / `$$...$$` / `\(...\)` / `\[...\]`）转换为 Word OMML 原生公式格式，渲染效果经目视验证。Pure Python 后端有实验性原型（支持分式/根号/上下标/大型运算符/希腊字母），但 OMML 生成质量不及 Pandoc。**如需数学公式支持，请使用 `--method pandoc` 或配置 `pandoc.enabled=true`。**
+- **数学公式（双后端支持）**：Pandoc 后端通过 `tex_math_dollars` + `tex_math_single_backslash` 扩展将 LaTeX 公式转换为 Word OMML 原生公式格式。Pure Python 后端通过 `latex2mathml` → MathML→OMML 桥接架构独立支持数学公式，覆盖分式/根号/上下标/大型运算符/重音/矩阵/围栏等 14 类公式结构。两个后端均可生产使用——Pandoc 后端渲染质量更高（15 年 Haskell TeX 引擎），Pure Python 后端零外部依赖。不支持的公式自动回退为原文输出。
 
 ## 计划中的改进 | Planned Improvements
 
@@ -162,7 +163,7 @@ docx-pipeline convert --config ./project.yaml --dry-run
 
 - **批量转换**：一键将整个目录的 Markdown 文件转换为对应 DOCX，适合多章节文档或批量报告生成
 - **安装排错指南**：覆盖 Windows/macOS/Linux 的常见安装问题、中文字体配置、可选依赖排查
-- **数学公式支持**（✅ Pandoc 后端已完成）：Pandoc 后端已通过 `tex_math_dollars` + `tex_math_single_backslash` 扩展支持 LaTeX 公式。Pure Python 后端仍在计划中——考虑引入 `latex2mathml` → OMML 渲染管线。
+- **数学公式支持**（✅ 双后端完成）：Pandoc 后端通过 `tex_math_dollars` + `tex_math_single_backslash` 扩展支持 LaTeX 公式。Pure Python 后端通过 `latex2mathml` → MathML→OMML 桥接架构支持——参考 markdown2docx (TimeEtcher, MIT) 的已验证映射关系独立实现，21 测试覆盖 14 类公式结构。
 
 > 💡 这些功能尚未排期。如果你特别需要某个，请在 GitHub Issues 中提出——用户反馈会加速优先级调整。
 

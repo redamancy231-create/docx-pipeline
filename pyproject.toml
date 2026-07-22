@@ -32,6 +32,7 @@ dependencies = [
     "PyYAML>=6.0",
     "click>=8.0",
     "Pillow>=9.0",
+    "latex2mathml>=3.77.0",
 ]
 
 [project.optional-dependencies]

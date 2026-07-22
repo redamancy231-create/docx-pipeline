@@ -85,7 +85,7 @@ def test_unsupported_and_code_math_remain_literal(
     root = _convert_xml(pure_math_config)
     word_text = "".join(root.xpath("//w:t/text()", namespaces=NS))
 
-    assert r"$\begin{matrix}a&b\end{matrix}$" in word_text
+    assert r"$\notacommand{x}$" in word_text
     assert r"$x^{2}$" in word_text
     assert r"$\frac{code}{only}$" in word_text
 
