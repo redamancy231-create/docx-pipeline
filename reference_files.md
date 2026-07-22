@@ -51,3 +51,6 @@
 - [project_status.md](project_status.md) — 项目状态
 - [CHANGELOG.md](CHANGELOG.md) — 变更日志
 - [CONTRIBUTING.md](CONTRIBUTING.md) — 贡献指南（含代码来源条款）
+- [docs/fork-modification-directions.md](docs/fork-modification-directions.md) — Fork 修改方向全景分析（v1.2，14 章，GPT-5.6-Sol 审查）
+- [_review/gpt56-review-fork-directions-prompt.md](_review/gpt56-review-fork-directions-prompt.md) — Fork 方案审查提示词
+- [_review/gpt56-review-fork-directions-result.json](_review/gpt56-review-fork-directions-result.json) — Fork 方案审查结果
