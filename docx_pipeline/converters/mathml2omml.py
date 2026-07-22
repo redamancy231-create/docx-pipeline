@@ -463,9 +463,7 @@ def _append_nary_argument(
     font_size: float | None,
 ) -> None:
     argument = _append_math_element(nary, tag)
-    if source is None:
-        _append_run(argument, "\u200b", font_size)
-    else:
+    if source is not None:
         _convert_element(source, argument, font_size)
 
 
