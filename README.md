@@ -609,6 +609,8 @@ docx-pipeline/
 ├── pyproject.toml                              # 打包配置
 ├── project_status.md                           # 项目状态
 ├── reference_files.md                          # 文件索引
+├── docs/
+│   └── fork-modification-directions.md          # ★ Fork 修改方向全景分析
 ├── tests/
 │   ├── test_basic.py                           # 基础测试（配置/解析/CLI/备份）
 │   └── fixtures/                               # 测试 fixture

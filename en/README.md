@@ -603,6 +603,8 @@ docx-pipeline/
 ├── pyproject.toml                              # Packaging configuration
 ├── project_status.md                           # Project status
 ├── reference_files.md                          # File index
+├── docs/
+│   └── fork-modification-directions.md          # ★ Fork modification guide
 ├── tests/
 │   ├── test_basic.py                           # Basic tests (config/parser/CLI/backup)
 │   └── fixtures/                               # Test fixtures
