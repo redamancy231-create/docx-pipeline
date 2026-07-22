@@ -12,7 +12,8 @@
 - [base.py](docx_pipeline/converters/base.py) — AbstractConverter（含备份轮换）
 - [shared.py](docx_pipeline/converters/shared.py) — 共享常量与工具函数
 - [markdown_parser.py](docx_pipeline/converters/markdown_parser.py) — 逐行状态机 MD 解析器
-- [pure_python.py](docx_pipeline/converters/pure_python.py) — Pure Python 转换器（含 Mermaid + 图片 + 数学公式原型）
+- [pure_python.py](docx_pipeline/converters/pure_python.py) — Pure Python 转换器（含 Mermaid + 图片 + 数学公式桥接）
+- [mathml2omml.py](docx_pipeline/converters/mathml2omml.py) — MathML→OMML 桥接层（14 类公式结构）
 - [pandoc_converter.py](docx_pipeline/converters/pandoc_converter.py) — Pandoc 转换器（含 tex_math 扩展）
 - [mermaid_renderer.py](docx_pipeline/renderers/mermaid_renderer.py) — Mermaid 预渲染器
 - [encoding.py](docx_pipeline/utils/encoding.py) — Windows UTF-8 环境设置
@@ -38,6 +39,7 @@
 - [test_smoke.py](tests/test_smoke.py) — 冒烟测试（模板/双后端）
 - [test_math.py](tests/test_math.py) — Pandoc 数学公式测试（5 个）
 - [test_pure_python_math.py](tests/test_pure_python_math.py) — Pure Python 数学测试（4 个）
+- [test_math_bridge.py](tests/test_math_bridge.py) — MathML→OMML 桥接测试（21 个，XPath oracle）
 
 ## 审查与分析
 - [gitnexus_analysis_20260722.md](_review/gitnexus_analysis_20260722.md) — GitNexus MCP 架构分析报告
